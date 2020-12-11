@@ -1,4 +1,4 @@
-package gr.athtech.groupName.rentonow.model;
+package gr.athtech.groupName.rentonow.models;
 
 import lombok.Data;
 
@@ -6,11 +6,10 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@Entity(name="User")
+@Entity(name = "users")
 public class User {
-
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String telephone;

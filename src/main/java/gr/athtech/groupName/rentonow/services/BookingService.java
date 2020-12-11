@@ -1,9 +1,9 @@
-package gr.athtech.groupName.rentonow.service;
+package gr.athtech.groupName.rentonow.services;
 
-import gr.athtech.groupName.rentonow.dto.BookingDTO;
-import gr.athtech.groupName.rentonow.exception.BadRequestException;
-import gr.athtech.groupName.rentonow.exception.NotFoundException;
-import gr.athtech.groupName.rentonow.model.Booking;
+import gr.athtech.groupName.rentonow.dtos.BookingDTO;
+import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
+import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
+import gr.athtech.groupName.rentonow.models.Booking;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;

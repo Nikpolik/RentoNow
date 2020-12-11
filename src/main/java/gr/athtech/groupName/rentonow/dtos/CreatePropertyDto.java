@@ -1,8 +1,8 @@
-package gr.athtech.groupName.rentonow.dto;
+package gr.athtech.groupName.rentonow.dtos;
 
 import java.math.BigDecimal;
 
-import gr.athtech.groupName.rentonow.model.Property;
+import gr.athtech.groupName.rentonow.models.Property;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

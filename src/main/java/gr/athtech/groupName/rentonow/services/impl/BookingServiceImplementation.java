@@ -1,13 +1,13 @@
-package gr.athtech.groupName.rentonow.service.impl;
+package gr.athtech.groupName.rentonow.services.impl;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
-import gr.athtech.groupName.rentonow.dto.BookingDTO;
-import gr.athtech.groupName.rentonow.exception.BadRequestException;
-import gr.athtech.groupName.rentonow.exception.NotFoundException;
-import gr.athtech.groupName.rentonow.model.Booking;
-import gr.athtech.groupName.rentonow.repository.BookingRepository;
-import gr.athtech.groupName.rentonow.service.BookingService;
+import gr.athtech.groupName.rentonow.dtos.BookingDTO;
+import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
+import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
+import gr.athtech.groupName.rentonow.models.Booking;
+import gr.athtech.groupName.rentonow.repositories.BookingRepository;
+import gr.athtech.groupName.rentonow.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static gr.athtech.groupName.rentonow.model.QBooking.booking;
+import static gr.athtech.groupName.rentonow.models.QBooking.booking;
 
 @Service
 public class BookingServiceImplementation implements BookingService {

@@ -1,4 +1,4 @@
-package gr.athtech.groupName.rentonow.model;
+package gr.athtech.groupName.rentonow.models;
 
 import lombok.Data;
 

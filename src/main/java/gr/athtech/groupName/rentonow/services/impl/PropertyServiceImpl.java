@@ -1,12 +1,12 @@
-package gr.athtech.groupName.rentonow.service.impl;
+package gr.athtech.groupName.rentonow.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import gr.athtech.groupName.rentonow.dto.CreatePropertyDto;
-import gr.athtech.groupName.rentonow.repository.PropertyRepository;
-import gr.athtech.groupName.rentonow.service.PropertyService;
-import gr.athtech.groupName.rentonow.model.Property;
+import gr.athtech.groupName.rentonow.dtos.CreatePropertyDto;
+import gr.athtech.groupName.rentonow.repositories.PropertyRepository;
+import gr.athtech.groupName.rentonow.services.PropertyService;
+import gr.athtech.groupName.rentonow.models.Property;
 
 @Service
 public class PropertyServiceImpl implements PropertyService {

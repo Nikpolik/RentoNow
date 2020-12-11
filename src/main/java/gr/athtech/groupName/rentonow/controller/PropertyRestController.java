@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import gr.athtech.groupName.rentonow.dto.CreatePropertyDto;
-import gr.athtech.groupName.rentonow.service.PropertyService;
+import gr.athtech.groupName.rentonow.dtos.CreatePropertyDto;
+import gr.athtech.groupName.rentonow.services.PropertyService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.Data;
 import lombok.ToString;

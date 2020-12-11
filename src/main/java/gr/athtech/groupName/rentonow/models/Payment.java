@@ -1,4 +1,4 @@
-package gr.athtech.groupName.rentonow.model;
+package gr.athtech.groupName.rentonow.models;
 
 import lombok.Data;
 
@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 public class Payment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

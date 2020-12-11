@@ -1,8 +1,8 @@
-package gr.athtech.groupName.rentonow.dto;
+package gr.athtech.groupName.rentonow.dtos;
 
-import gr.athtech.groupName.rentonow.model.Booking;
-import gr.athtech.groupName.rentonow.model.Property;
-import gr.athtech.groupName.rentonow.model.User;
+import gr.athtech.groupName.rentonow.models.Booking;
+import gr.athtech.groupName.rentonow.models.Property;
+import gr.athtech.groupName.rentonow.models.User;
 import lombok.Data;
 
 import java.time.LocalDate;
