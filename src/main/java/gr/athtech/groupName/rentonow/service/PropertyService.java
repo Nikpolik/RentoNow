@@ -1,10 +1,7 @@
 package gr.athtech.groupName.rentonow.service;
 
-import gr.athtech.groupName.rentonow.model.Property;
+import gr.athtech.groupName.rentonow.dto.CreatePropertyDto;
 
 public interface PropertyService {
-
-    Property getById(long id);
-    List<Property> getAllProperties();
-
+   CreatePropertyDto saveProperty(CreatePropertyDto propertyDto); 
 }
