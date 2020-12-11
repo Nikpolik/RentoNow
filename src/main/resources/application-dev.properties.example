@@ -1,0 +1,23 @@
+server.port=9000
+
+spring.datasource.url=jdbc:sqlserver://localhost;databaseName=rentonow
+spring.datasource.username=
+spring.datasource.password=
+spring.datasource.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.SQLServer2012Dialect
+
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto = update
+# create-drop
+# validate
+spring.datasource.initialization-mode=always
+
+
+# Naming strategy
+spring.jpa.hibernate.naming.implicit-strategy= org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+spring.jpa.hibernate.naming.physical-strategy= org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+# Don't log when restarting
+spring.devtools.restart.log-condition-evaluation-delta=false
+logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter=DEBUG
