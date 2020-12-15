@@ -15,8 +15,7 @@ public class User {
     private String name;
     private String telephone;
     private String email;
-//    @ManyToMany
-//    private List<Role> roles;
+    private String role;
     @OneToMany(mappedBy = "host")
     private List<Property> properties;
     @OneToMany(mappedBy = "guest")

@@ -19,7 +19,7 @@ public class Property {
     private String telephone;
     private String email;
     @ManyToOne
-    private User user; //host
+    private User host;
     @OneToMany(mappedBy = "property")
     private List<Payment> payments;
     @OneToMany(mappedBy = "property")
