@@ -1,19 +1,18 @@
 package gr.athtech.groupName.rentonow.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import gr.athtech.groupName.rentonow.dtos.CreatePropertyDto;
+import gr.athtech.groupName.rentonow.dtos.FindPropertyDto;
+import gr.athtech.groupName.rentonow.dtos.PropertyDto;
 import gr.athtech.groupName.rentonow.services.PropertyService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import lombok.Data;
-import lombok.ToString;
 
-@Data
-@ToString
 @RestController()
 @RequestMapping("/properties")
 public class PropertyRestController {
@@ -22,8 +21,8 @@ public class PropertyRestController {
     PropertyService service;
 
     @GetMapping("/")
-    public String getProperties() {
-        return "properties";
+    public List<PropertyDto> getProperties(FindPropertyDto searchParams) {
+        return service.findProperties(searchParams);
     }
 
     @GetMapping("/{id}")
