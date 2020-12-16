@@ -1,4 +1,4 @@
-package gr.athtech.groupName.rentonow.controller;
+package gr.athtech.groupName.rentonow.controllers;
 
 import java.util.List;
 

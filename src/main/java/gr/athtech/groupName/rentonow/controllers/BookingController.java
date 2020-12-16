@@ -1,9 +1,9 @@
-package gr.athtech.groupName.rentonow.controller;
+package gr.athtech.groupName.rentonow.controllers;
 
-import gr.athtech.groupName.rentonow.dto.BookingDTO;
-import gr.athtech.groupName.rentonow.exception.BadRequestException;
-import gr.athtech.groupName.rentonow.exception.NotFoundException;
-import gr.athtech.groupName.rentonow.service.BookingService;
+import gr.athtech.groupName.rentonow.dtos.BookingDTO;
+import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
+import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
+import gr.athtech.groupName.rentonow.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
