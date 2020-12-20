@@ -1,6 +1,6 @@
 package gr.athtech.groupName.rentonow.controllers;
 
-import gr.athtech.groupName.rentonow.dtos.BookingDTO;
+import gr.athtech.groupName.rentonow.dtos.BookingDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.models.Booking;
@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "bookings")
@@ -28,13 +27,8 @@ public class BookingRestController {
     }
 
     @GetMapping(value = "/{id}")
-    public BookingDTO getBookingById(@PathVariable Long id) throws NotFoundException {
+    public BookingDto getBookingById(@PathVariable Long id) throws NotFoundException {
         return bookingService.getBookingById(id);
-    }
-
-    @PostMapping
-    public BookingDTO createBooking(@RequestBody BookingDTO bookingDTO) {
-        return bookingService.createBooking(bookingDTO);
     }
 
 }
