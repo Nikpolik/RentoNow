@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -38,6 +37,8 @@ public class PropertyRepositoryImpl implements PropertyRepositoryCustom {
         // This search is not accurate and works only for small circles since 
         // it is not based on spherical geometry. For a proper implementation  
         // we would propably need elasticsearch or a postgresql gsis etc...
+        // For a proper implementation in sql server we would need the
+        // geography type but it is not supported yet in hibernate spatial
         Geometry searchCircle = searchParams.generateSearchCircle();
         ParameterExpression<Geometry> circleParam = null;
         if(searchCircle != null) {
