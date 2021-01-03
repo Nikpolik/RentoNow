@@ -32,6 +32,7 @@ public class PropertyRestController {
     public CreatePropertyDto createProperty(@RequestBody CreatePropertyDto propertyDto) {
         return service.saveProperty(propertyDto);
     }
+
     @PostMapping("/{id}/bookings")
     public BookingDto createBooking(@PathVariable Long id, @RequestBody CreateBookingDto createBookingDto) {
         return bookingService.createBooking(createBookingDto, id);

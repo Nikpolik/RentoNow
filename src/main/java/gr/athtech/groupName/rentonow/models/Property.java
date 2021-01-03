@@ -25,6 +25,7 @@ public class Property {
 
     @ManyToOne
     private User host;
+
     @OneToMany(mappedBy = "property")
     private List<Payment> payments;
     @OneToMany(mappedBy = "property")
