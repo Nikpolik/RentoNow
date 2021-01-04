@@ -43,7 +43,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   @Override
   public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
       FilterChain filterChain, Authentication authentication) throws IOException, ServletException {
-    try {
       User user = ((User) authentication.getPrincipal());
       List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
           .collect(Collectors.toList());
@@ -54,9 +53,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
           .withClaim("rol", roles).withExpiresAt(expiresAt).sign(algorithm);
       response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
       filterChain.doFilter(request, response);
-    } catch (Exception e) {
-      // todo log error here
-    }
   }
 
 }
