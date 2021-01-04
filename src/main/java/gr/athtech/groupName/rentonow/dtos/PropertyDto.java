@@ -16,17 +16,17 @@ public class PropertyDto {
     private String telephone;
     private String email;
     private String address;
-    private String host;
+    private Long host;
 
     public static PropertyDto fromProperty(Property property) {
         var builder = PropertyDto.builder();
         User host = property.getHost();
 
         if (host != null) {
-            builder.host(host.getName());
+            builder.host(host.getId());
         }
 
         return builder.id(property.getId()).email(property.getEmail()).details(property.getDetails())
-                .address(property.getAddress()).price(property.getPrice()).build();
+                .address(property.getAddress()).price(property.getPrice()).telephone(property.getTelephone()).build();
     }
 }

@@ -14,6 +14,8 @@ import gr.athtech.groupName.rentonow.models.Property;
 @Builder
 @AllArgsConstructor
 public class CreatePropertyDto {
+
+    private Long id;
     private BigDecimal price;
     private String details;
     private String telephone;
@@ -21,6 +23,7 @@ public class CreatePropertyDto {
     private String address;
     private Double longitude;
     private Double latitude;
+    private Long host;
     
     public static Property toProperty(CreatePropertyDto createDto) {
         Property property = new Property();
@@ -31,7 +34,15 @@ public class CreatePropertyDto {
         property.setTelephone(createDto.getTelephone());
         property.setDetails(createDto.getDetails());
         property.setEmail(createDto.getEmail());
+        property.setId(createDto.getId());
         return property;
+    }
+
+    public Point getLocation(){
+        if(this.latitude == null || this.longitude == null) {
+            return null;
+        }
+        return coordinatesToPoint(this.longitude, this.latitude);
     }
 
     private static Point coordinatesToPoint(Double longitude, Double latitude) {

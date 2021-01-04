@@ -12,6 +12,7 @@ public class NotFoundException extends Exception {
 
     public NotFoundException(HttpStatus notFound, String s) {
         super();
+        this.message = s;
     }
 
     public NotFoundException(String message) {
