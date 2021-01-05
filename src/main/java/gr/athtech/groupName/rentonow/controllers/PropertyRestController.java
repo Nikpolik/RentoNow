@@ -1,17 +1,15 @@
 package gr.athtech.groupName.rentonow.controllers;
 
-import java.util.List;
-
 import gr.athtech.groupName.rentonow.dtos.*;
+import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.services.BookingService;
-
-import org.aspectj.weaver.ast.Not;
+import gr.athtech.groupName.rentonow.services.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import gr.athtech.groupName.rentonow.services.PropertyService;
+
+import java.util.List;
 
 @RestController()
 @RequestMapping("/properties")
@@ -44,7 +42,7 @@ public class PropertyRestController {
     }
 
     @PostMapping("/{id}/bookings")
-    public BookingDto createBooking(@PathVariable Long id, @RequestBody CreateBookingDto createBookingDto) {
+    public BookingDto createBooking(@PathVariable Long id, @RequestBody CreateBookingDto createBookingDto) throws NotFoundException, BadRequestException {
         return bookingService.createBooking(createBookingDto, id);
     }
 

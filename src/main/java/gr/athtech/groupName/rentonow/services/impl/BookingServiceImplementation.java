@@ -8,8 +8,9 @@ import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.models.Booking;
 import gr.athtech.groupName.rentonow.models.Property;
+import gr.athtech.groupName.rentonow.models.User;
 import gr.athtech.groupName.rentonow.repositories.BookingRepository;
-import gr.athtech.groupName.rentonow.repositories.PropertyRepository;
+import gr.athtech.groupName.rentonow.services.AvailabilityService;
 import gr.athtech.groupName.rentonow.services.BookingService;
 import gr.athtech.groupName.rentonow.services.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,7 +39,7 @@ public class BookingServiceImplementation implements BookingService {
     private PropertyService propertyService;
 
     @Autowired
-    private PropertyRepository propertyRepository;
+    private AvailabilityService availabilityService;
 
     @Override
     public Page<Booking> getBookings(Long guestId, Long propertyId, LocalDate fromDate, LocalDate toDate) throws BadRequestException {
@@ -82,13 +84,24 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public BookingDto createBooking(CreateBookingDto createBookingDto, Long propertyId) {
+    public BookingDto createBooking(CreateBookingDto createBookingDto, Long propertyId) throws NotFoundException, BadRequestException {
+        if (createBookingDto == null || propertyId == null) {
+            throw new BadRequestException("createBookingDto and propertyId cannot be null");
+        }
+        if (createBookingDto.getStartDate() == createBookingDto.getEndDate()) {
+            throw new BadRequestException("Start date and end date cannot be the same day");
+        }
+        Boolean isPropertyAvailable = availabilityService.isPropertyAvailable(propertyId, createBookingDto.getStartDate(), createBookingDto.getEndDate());
+        if (!isPropertyAvailable) {
+            throw new BadRequestException("The property of this booking is not available for the provided dates");
+        }
         Booking booking = CreateBookingDto.toBooking(createBookingDto);
-        //TODO replace propertyRepository with propertyService o
-        Optional<Property> propertyOptional = propertyRepository.findById(propertyId);
-        booking.setProperty(propertyOptional.get());
-        //TODO set loggedIn user as guest once UserService is available
+        Property property = propertyService.findPropertyById(propertyId);
+        booking.setProperty(property);
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        booking.setGuest(currentUser);
         booking = bookingRepository.save(booking);
+        availabilityService.createAvailability(booking, property);
         return BookingDto.fromBooking(booking);
     }
 

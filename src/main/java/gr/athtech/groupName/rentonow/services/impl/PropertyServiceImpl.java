@@ -70,4 +70,8 @@ public class PropertyServiceImpl implements PropertyService {
 
         return PropertyDto.fromProperty(propertyRepository.save(property));
     }
+
+    public Property findPropertyById(Long propertyId) throws NotFoundException {
+        return propertyRepository.findById(propertyId).orElseThrow(() -> new NotFoundException("There is no property with the id provided"));
+    }
 }

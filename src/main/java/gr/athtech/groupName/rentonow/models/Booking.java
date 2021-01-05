@@ -1,5 +1,6 @@
 package gr.athtech.groupName.rentonow.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@JsonIgnoreProperties({"property"})
 public class Booking {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
