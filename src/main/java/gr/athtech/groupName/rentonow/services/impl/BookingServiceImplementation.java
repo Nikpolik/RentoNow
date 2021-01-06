@@ -102,7 +102,7 @@ public class BookingServiceImplementation implements BookingService {
         booking.setGuest(currentUser);
         booking.setCreationDate(LocalDateTime.now());
         booking = bookingRepository.saveAndFlush(booking);
-        Availability availability = availabilityService.createAvailability(booking, property);
+        Availability availability = availabilityService.setBooked(booking, property);
         booking.setAvailability(availability);
         bookingRepository.save(booking);
         return BookingDto.fromBooking(booking);
