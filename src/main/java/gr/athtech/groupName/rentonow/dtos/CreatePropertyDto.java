@@ -5,11 +5,14 @@ import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
+
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import gr.athtech.groupName.rentonow.models.Property;
 
+@ToString
 @Getter
 @Builder
 @AllArgsConstructor
@@ -24,13 +27,12 @@ public class CreatePropertyDto {
     private Double longitude;
     private Double latitude;
     private Long host;
-    
+
     public static Property toProperty(CreatePropertyDto createDto) {
         Property property = new Property();
-        Point location = coordinatesToPoint(createDto.getLongitude(), createDto.getLatitude()); 
         property.setPrice(createDto.getPrice());
         property.setAddress(createDto.getAddress());
-        property.setLocation(location);
+        property.setLocation(createDto.getLocation());
         property.setTelephone(createDto.getTelephone());
         property.setDetails(createDto.getDetails());
         property.setEmail(createDto.getEmail());
@@ -50,5 +52,4 @@ public class CreatePropertyDto {
         GeometryFactory factory = new GeometryFactory();
         return factory.createPoint(coordinate);
     }
-    
 }
