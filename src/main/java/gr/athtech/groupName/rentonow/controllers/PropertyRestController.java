@@ -32,8 +32,8 @@ public class PropertyRestController {
     }
 
     @PostMapping("/")
-    public PropertyDto createProperty(@RequestBody CreatePropertyDto propertyDto) {
-        return service.saveProperty(propertyDto);
+    public PropertyDto createProperty(@RequestBody CreatePropertyDto createDto) {
+        return service.saveProperty(createDto);
     }
 
     @PutMapping("/")
@@ -46,9 +46,14 @@ public class PropertyRestController {
         return bookingService.createBooking(createBookingDto, id);
     }
 
+    @PostMapping("/{id}/closed")
+    public Object setClosed(@PathVariable Long id, @RequestBody ClosedDatesDto createAvailabilityDto) {
+        return null;
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public String notFoundExceptionHandler(Exception e) {
+    public String notFoundExceptionHandler(NotFoundException e) {
       return e.getMessage();
     }
     
