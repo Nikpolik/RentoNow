@@ -1,5 +1,6 @@
 package gr.athtech.groupName.rentonow.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
+@JsonIgnoreProperties("location")
 public class Property {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +28,10 @@ public class Property {
     @ManyToOne
     private User host;
 
-    @OneToMany(mappedBy = "property")
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Payment> payments;
-    @OneToMany(mappedBy = "property")
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Booking> bookings;
-    @OneToMany()
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Availability> availabilities;
 }

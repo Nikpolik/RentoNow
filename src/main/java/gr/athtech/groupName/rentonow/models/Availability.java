@@ -1,21 +1,23 @@
 package gr.athtech.groupName.rentonow.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Data
-@Entity(name = "availabilities")
+@Entity
+@JsonIgnoreProperties({"property"})
 public class Availability {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
-    @ManyToOne()
+    @ManyToOne
     private Property property;
-    @OneToOne(mappedBy = "availability")
+    @OneToOne
     private Booking booking;
     @Enumerated(EnumType.ORDINAL)
     private AvailabilityStatus status;

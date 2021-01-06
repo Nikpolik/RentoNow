@@ -1,5 +1,6 @@
 package gr.athtech.groupName.rentonow.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import gr.athtech.groupName.rentonow.models.Booking;
 import gr.athtech.groupName.rentonow.models.Property;
 import gr.athtech.groupName.rentonow.models.User;
@@ -21,6 +22,7 @@ public class BookingDto {
         booking.setStartDate(bookingDto.getStartDate());
         booking.setEndDate(bookingDto.getEndDate());
         booking.setGuest(bookingDto.getGuest());
+        booking.setProperty(bookingDto.getProperty());
         return booking;
     }
 
@@ -30,6 +32,7 @@ public class BookingDto {
         bookingDto.setStartDate(booking.getStartDate());
         bookingDto.setEndDate(booking.getEndDate());
         bookingDto.setGuest(booking.getGuest());
+        bookingDto.setProperty(booking.getProperty());
         return bookingDto;
     }
 }

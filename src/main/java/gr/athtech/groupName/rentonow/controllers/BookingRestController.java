@@ -31,4 +31,9 @@ public class BookingRestController {
         return bookingService.getBookingById(id);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public void cancelBooking(@PathVariable Long id) throws NotFoundException, BadRequestException {
+        bookingService.deleteBooking(id);
+    }
+
 }

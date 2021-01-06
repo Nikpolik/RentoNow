@@ -6,11 +6,11 @@ import gr.athtech.groupName.rentonow.dtos.BookingDto;
 import gr.athtech.groupName.rentonow.dtos.CreateBookingDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
+import gr.athtech.groupName.rentonow.models.Availability;
 import gr.athtech.groupName.rentonow.models.Booking;
 import gr.athtech.groupName.rentonow.models.Property;
 import gr.athtech.groupName.rentonow.models.User;
 import gr.athtech.groupName.rentonow.repositories.BookingRepository;
-import gr.athtech.groupName.rentonow.services.AvailabilityService;
 import gr.athtech.groupName.rentonow.services.BookingService;
 import gr.athtech.groupName.rentonow.services.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ public class BookingServiceImplementation implements BookingService {
     private PropertyService propertyService;
 
     @Autowired
-    private AvailabilityService availabilityService;
+    private AvailabilityServiceImpl availabilityService;
 
     @Override
     public Page<Booking> getBookings(Long guestId, Long propertyId, LocalDate fromDate, LocalDate toDate) throws BadRequestException {
@@ -100,14 +101,21 @@ public class BookingServiceImplementation implements BookingService {
         booking.setProperty(property);
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         booking.setGuest(currentUser);
-        booking = bookingRepository.save(booking);
-        availabilityService.createAvailability(booking, property);
+        booking.setCreationDate(LocalDateTime.now());
+        booking = bookingRepository.saveAndFlush(booking);
+        Availability availability = availabilityService.createAvailability(booking, property);
+        booking.setAvailability(availability);
+        bookingRepository.save(booking);
         return BookingDto.fromBooking(booking);
     }
 
     @Override
-    public BookingDto updateBooking(BookingDto bookingDto) {
-        return null;
+    public void deleteBooking(Long bookingId) throws BadRequestException, NotFoundException {
+        if (bookingId == null) {
+            throw new BadRequestException("The bookingId cannot de null");
+        }
+        getBookingById(bookingId);
+        bookingRepository.deleteById(bookingId);
     }
 
 }

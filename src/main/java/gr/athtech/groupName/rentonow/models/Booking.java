@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@JsonIgnoreProperties({"property"})
+@JsonIgnoreProperties({"property", "guest", "availability"})
 public class Booking {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -21,6 +21,6 @@ public class Booking {
     @ManyToOne
     private Property property;
     private LocalDateTime creationDate;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Availability availability;
 }

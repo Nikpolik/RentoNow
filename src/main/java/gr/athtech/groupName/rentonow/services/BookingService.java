@@ -14,6 +14,6 @@ public interface BookingService {
     Page<Booking> getBookings(Long guestId, Long propertyId, LocalDate fromDate, LocalDate toDate) throws BadRequestException;
     BookingDto getBookingById(Long id) throws NotFoundException;
     BookingDto createBooking(CreateBookingDto createBookingDto, Long propertyId) throws NotFoundException, BadRequestException;
-    BookingDto updateBooking(BookingDto bookingDto);
+    void deleteBooking(Long id) throws NotFoundException, BadRequestException;
 
 }
