@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,7 +53,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       String token = JWT.create().withSubject(user.getUsername()).withIssuer(SecurityConstants.ISSUER)
           .withClaim("rol", roles).withExpiresAt(expiresAt).sign(algorithm);
       response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
-      filterChain.doFilter(request, response);
+      response.setStatus(200);
+      // no need to keep the chain here since we just want to return 200 with an empty body
   }
 
 }
