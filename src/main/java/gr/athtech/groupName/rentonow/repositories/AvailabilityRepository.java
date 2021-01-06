@@ -8,6 +8,9 @@ import java.time.LocalDate;
 
 public interface AvailabilityRepository extends JpaRepository<Availability, Long> {
 
-    @Query("select count(a) from Availability a where a.property.id = ?1 and (a.startDate <= ?2 or a.startDate < ?3) and (a.endDate >= ?3 or a.endDate > ?2)")
-    Integer findOverlappedBookings(Long propertyId, LocalDate startDate, LocalDate endDate);
+    @Query("select case when count(a) > 0 then true else false end " +
+            "from Availability a where a.property.id = ?1 " +
+            "and (a.startDate <= ?2 or a.startDate < ?3) " +
+            "and (a.endDate >= ?3 or a.endDate > ?2)")
+    Boolean isUnavailableForPeriod(Long propertyId, LocalDate startDate, LocalDate endDate);
 }
