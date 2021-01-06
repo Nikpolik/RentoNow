@@ -4,12 +4,10 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import gr.athtech.groupName.rentonow.dtos.BookingDto;
 import gr.athtech.groupName.rentonow.dtos.CreateBookingDto;
+import gr.athtech.groupName.rentonow.dtos.FindBookingDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
-import gr.athtech.groupName.rentonow.models.Availability;
-import gr.athtech.groupName.rentonow.models.Booking;
-import gr.athtech.groupName.rentonow.models.Property;
-import gr.athtech.groupName.rentonow.models.User;
+import gr.athtech.groupName.rentonow.models.*;
 import gr.athtech.groupName.rentonow.repositories.BookingRepository;
 import gr.athtech.groupName.rentonow.services.BookingService;
 import gr.athtech.groupName.rentonow.services.PropertyService;
@@ -28,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static gr.athtech.groupName.rentonow.models.QBooking.booking;
-
 @Service
 public class BookingServiceImplementation implements BookingService {
 
@@ -43,34 +39,37 @@ public class BookingServiceImplementation implements BookingService {
     private AvailabilityServiceImpl availabilityService;
 
     @Override
-    public Page<Booking> getBookings(Long guestId, Long propertyId, LocalDate fromDate, LocalDate toDate) throws BadRequestException {
-        if (guestId == null && propertyId == null && fromDate == null && toDate == null) {
-            throw new BadRequestException(HttpStatus.BAD_REQUEST, "One of the following should be provided: Guest id, Property id, From Date, To Date");
+    public Page<Booking> getBookings(Integer num, Integer size, String sortBy, String direction, FindBookingDto findBookingDto) throws BadRequestException {
+        if (num == null || size == null || sortBy == null || direction == null) {
+            throw new BadRequestException(HttpStatus.BAD_REQUEST, "One or all of the page parameters are null");
         }
 
+        QBooking qBooking = QBooking.booking;
         List<Predicate> predicatesList = new ArrayList<>();
 
+        Long guestId = findBookingDto.getGuestId();
         if (guestId != null) {
-            predicatesList.add(booking.guest.id.eq(guestId));
+            predicatesList.add(qBooking.guest.id.eq(guestId));
         }
+        Long propertyId = findBookingDto.getPropertyId();
         if (propertyId != null) {
-            predicatesList.add(booking.property.id.eq(propertyId));
+            predicatesList.add(qBooking.property.id.eq(propertyId));
         }
+        LocalDate fromDate = findBookingDto.getFromDate();
         if (fromDate != null) {
-            predicatesList.add(booking.startDate.goe(fromDate));
+            predicatesList.add(qBooking.startDate.goe(fromDate));
         }
+        LocalDate toDate = findBookingDto.getToDate();
         if (toDate != null) {
-            predicatesList.add(booking.startDate.loe(toDate));
+            predicatesList.add(qBooking.startDate.loe(toDate));
         }
 
         Predicate allPredicates = ExpressionUtils.allOf(predicatesList);
 
-        //add parameters for sorting and paging ?
-
-        Sort.Direction sortDirection = Sort.Direction.fromString("asc");
-        Sort.Order order = new Sort.Order(sortDirection, "startDate");
+        Sort.Direction sortDirection = Sort.Direction.fromString(direction);
+        Sort.Order order = new Sort.Order(sortDirection, sortBy);
         Sort sort = Sort.by(order);
-        Pageable p = PageRequest.of(1, 10, sort);
+        Pageable p = PageRequest.of(num, size, sort);
 
         return bookingRepository.findAll(allPredicates, p);
     }

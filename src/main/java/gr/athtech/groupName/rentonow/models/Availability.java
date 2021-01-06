@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@JsonIgnoreProperties({"property"})
+@JsonIgnoreProperties({"property", "booking"})
 public class Availability {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

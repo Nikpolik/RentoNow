@@ -1,6 +1,7 @@
 package gr.athtech.groupName.rentonow.controllers;
 
 import gr.athtech.groupName.rentonow.dtos.BookingDto;
+import gr.athtech.groupName.rentonow.dtos.FindBookingDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.models.Booking;
@@ -19,11 +20,12 @@ public class BookingRestController {
     private BookingService bookingService;
 
     @GetMapping
-    public Page<Booking> getBookings(@RequestParam(name = "guestId", required = false) Long guestId,
-                                     @RequestParam(name = "propertyId", required = false) Long propertyId,
-                                     @RequestParam(name = "from", required = false) LocalDate fromDate,
-                                     @RequestParam(name = "to", required = false) LocalDate toDate) throws BadRequestException {
-        return bookingService.getBookings(guestId, propertyId, fromDate, toDate);
+    public Page<Booking> getBookings(@RequestParam(name = "num", required = false) Integer num,
+                                     @RequestParam(name = "size", required = false) Integer size,
+                                     @RequestParam(name = "sortBy", required = false) String sortBy,
+                                     @RequestParam(name = "direction", required = false) String direction,
+                                     @RequestBody FindBookingDto findBookingDto) throws BadRequestException {
+        return bookingService.getBookings(num, size, sortBy, direction, findBookingDto);
     }
 
     @GetMapping(value = "/{id}")
