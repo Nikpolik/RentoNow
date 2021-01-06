@@ -60,8 +60,9 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     availability.setStartDate(closedDatesDto.getStartDate());
     availability.setEndDate(closedDatesDto.getEndDate());
     availability.setProperty(property);
+    availabilityRepository.save(availability);
 
-    return null;
+    return PropertyDto.fromProperty(property);
   }
 
   @Override
