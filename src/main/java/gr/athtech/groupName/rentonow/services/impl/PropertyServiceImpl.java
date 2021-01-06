@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import gr.athtech.groupName.rentonow.dtos.ClosedDatesDto;
 import gr.athtech.groupName.rentonow.dtos.CreatePropertyDto;
 import gr.athtech.groupName.rentonow.dtos.FindPropertyDto;
 import gr.athtech.groupName.rentonow.dtos.PropertyDto;
+import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.repositories.PropertyRepository;
 import gr.athtech.groupName.rentonow.services.PropertyService;
@@ -42,13 +45,19 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public PropertyDto updateProperty(CreatePropertyDto propertyDto) throws NotFoundException {
-        Property property = propertyRepository.getOne(propertyDto.getId());
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (!property.getHost().getId().equals(currentUser.getId())) {
-            throw new NotFoundException(HttpStatus.NOT_FOUND, "No property was found with this id");
+    @PostAuthorize("returnObject.host.id == authentication.principal.id")
+    public Property findOwnedProperty(Long id) throws NotFoundException {
+        var property = propertyRepository.findById(id);
+        if(property.isEmpty()) {
+            throw new NotFoundException(HttpStatus.NOT_FOUND, "No property found");
         }
+        return property.get();
+    }
+
+    @Override
+    public PropertyDto updateProperty(CreatePropertyDto propertyDto) throws NotFoundException {
+        Property property = this.findOwnedProperty(propertyDto.getId());
+
         if (propertyDto.getAddress() != null) {
             property.setAddress(propertyDto.getAddress());
         }
