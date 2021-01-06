@@ -44,7 +44,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
       NotFoundException {
 
     if (closedDatesDto.getStartDate() == null || closedDatesDto.getEndDate() == null) {
-      throw new BadRequestException(HttpStatus.BAD_REQUEST, "No start date or end date");
+      throw new BadRequestException("No start date or end date");
     }
 
     Property property = propertyService.findOwnedProperty(propertyId);
@@ -52,8 +52,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     boolean isBooked = availabilityRepository.isUnavailableForPeriod(propertyId, closedDatesDto.getStartDate(),
         closedDatesDto.getEndDate());
     if (isBooked) {
-      throw new BadRequestException(HttpStatus.BAD_REQUEST,
-          "You cannot set the property as closed during a period it is booked");
+      throw new BadRequestException("You cannot set the property as closed during a period it is booked");
     }
 
     Availability availability = new Availability();

@@ -41,7 +41,7 @@ public class BookingServiceImplementation implements BookingService {
     @Override
     public Page<Booking> getBookings(Integer num, Integer size, String sortBy, String direction, FindBookingDto findBookingDto) throws BadRequestException {
         if (num == null || size == null || sortBy == null || direction == null) {
-            throw new BadRequestException(HttpStatus.BAD_REQUEST, "One or all of the page parameters are null");
+            throw new BadRequestException("One or all of the page parameters are null");
         }
 
         QBooking qBooking = QBooking.booking;
@@ -78,7 +78,7 @@ public class BookingServiceImplementation implements BookingService {
     public BookingDto getBookingById(Long id) throws NotFoundException {
         Optional<Booking> booking = bookingRepository.findById(id);
         if (booking.isEmpty()) {
-            throw new NotFoundException(HttpStatus.NOT_FOUND, "There is no booking with the provided id");
+            throw new NotFoundException("There is no booking with the provided id");
         }
         return BookingDto.fromBooking(booking.get());
     }

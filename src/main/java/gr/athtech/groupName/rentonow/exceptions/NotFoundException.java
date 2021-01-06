@@ -2,23 +2,22 @@ package gr.athtech.groupName.rentonow.exceptions;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
+@ResponseStatus(HttpStatus.NOT_FOUND)
 @Data
 public class NotFoundException extends Exception {
     private static final long serialVersionUID = -451071012316112083L;
 
-    private final String message;
-    private final HttpStatus status;
+    private String message;
+    private HttpStatus status;
 
-    public NotFoundException(HttpStatus notFound, String s) {
+    public NotFoundException() {
         super();
-        this.message = s;
-        this.status = notFound;
     }
 
     public NotFoundException(String message) {
         super();
         this.message = message;
-        this.status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 }

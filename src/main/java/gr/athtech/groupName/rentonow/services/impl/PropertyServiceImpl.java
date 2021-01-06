@@ -49,7 +49,7 @@ public class PropertyServiceImpl implements PropertyService {
     public Property findOwnedProperty(Long id) throws NotFoundException {
         var property = propertyRepository.findById(id);
         if(property.isEmpty()) {
-            throw new NotFoundException(HttpStatus.NOT_FOUND, "No property found");
+            throw new NotFoundException("No property found");
         }
         return property.get();
     }
