@@ -8,7 +8,6 @@ import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.models.Booking;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalDate;
 
 public interface BookingService {
 

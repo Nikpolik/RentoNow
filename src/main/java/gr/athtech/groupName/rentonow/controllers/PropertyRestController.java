@@ -8,7 +8,6 @@ import gr.athtech.groupName.rentonow.services.BookingService;
 import gr.athtech.groupName.rentonow.services.PropertyService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

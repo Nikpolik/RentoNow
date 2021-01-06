@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import gr.athtech.groupName.rentonow.dtos.ClosedDatesDto;
 import gr.athtech.groupName.rentonow.dtos.CreatePropertyDto;
 import gr.athtech.groupName.rentonow.dtos.FindPropertyDto;
 import gr.athtech.groupName.rentonow.dtos.PropertyDto;
-import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.repositories.PropertyRepository;
 import gr.athtech.groupName.rentonow.services.PropertyService;

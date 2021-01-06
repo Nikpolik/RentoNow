@@ -1,6 +1,5 @@
 package gr.athtech.groupName.rentonow.dtos;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import gr.athtech.groupName.rentonow.models.Booking;
 import gr.athtech.groupName.rentonow.models.Property;
 import gr.athtech.groupName.rentonow.models.User;

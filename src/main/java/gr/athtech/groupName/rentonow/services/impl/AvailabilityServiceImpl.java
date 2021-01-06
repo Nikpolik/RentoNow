@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.springframework.http.HttpStatus;
 
 import gr.athtech.groupName.rentonow.dtos.ClosedDatesDto;
 import gr.athtech.groupName.rentonow.dtos.PropertyDto;
