@@ -7,12 +7,13 @@ import org.springframework.http.HttpStatus;
 public class NotFoundException extends Exception {
     private static final long serialVersionUID = -451071012316112083L;
 
-    private String message;
-    private HttpStatus status;
+    private final String message;
+    private final HttpStatus status;
 
     public NotFoundException(HttpStatus notFound, String s) {
         super();
         this.message = s;
+        this.status = notFound;
     }
 
     public NotFoundException(String message) {
