@@ -26,6 +26,11 @@ public class UserRestController {
       return userService.register(dto);
   }
 
+  @PostMapping(value = "/auth/update")
+  public UserDto update(@RequestBody UserDto dto) {
+    return userService.update(dto);
+  }
+
   @ResponseStatus(HttpStatus.CONFLICT)
   @ExceptionHandler(DataIntegrityViolationException.class)
   public String usernameErrorHandler() {

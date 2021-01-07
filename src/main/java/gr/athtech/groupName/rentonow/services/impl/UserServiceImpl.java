@@ -1,6 +1,7 @@
 package gr.athtech.groupName.rentonow.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,33 @@ public class UserServiceImpl implements UserService {
     User user = UserDto.toUser(newUserDto);
     String hashedPassword = passwordEncoder.encode(newUserDto.getPassword());
     user.setPassword(hashedPassword);
-    userRepository.save(user);
+    user = userRepository.save(user);
     return UserDto.fromUser(user);
+  }
+
+  @Override
+  public UserDto update(UserDto updateUser) {
+    User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+    if (updateUser.getTelephone() != null) {
+      currentUser.setTelephone(updateUser.getTelephone());
+    }
+
+    if(updateUser.getEmail() != null) {
+      currentUser.setEmail(updateUser.getEmail());
+    }
+
+    if(updateUser.getName() != null) {
+      currentUser.setEmail(updateUser.getEmail());
+    }
+
+    if(updateUser.getPassword() != null) {
+      String hashedPassword = passwordEncoder.encode(updateUser.getPassword());
+      currentUser.setPassword(hashedPassword);
+    }
+
+    userRepository.save(currentUser);
+
+    return UserDto.fromUser(currentUser);
   }
 }

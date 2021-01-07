@@ -6,4 +6,6 @@ public interface UserService {
 
   public UserDto register(UserDto newUserDto);
 
+  public UserDto update(UserDto updateUser);
+
 }
