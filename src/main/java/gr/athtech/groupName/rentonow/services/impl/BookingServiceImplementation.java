@@ -46,6 +46,10 @@ public class BookingServiceImplementation implements BookingService {
         QBooking qBooking = QBooking.booking;
         List<Predicate> predicatesList = new ArrayList<>();
 
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        predicatesList.add(qBooking.guest.eq(currentUser));
+        predicatesList.add(qBooking.property.host.eq(currentUser));
+
         Long guestId = findBookingDto.getGuestId();
         if (guestId != null) {
             predicatesList.add(qBooking.guest.id.eq(guestId));
