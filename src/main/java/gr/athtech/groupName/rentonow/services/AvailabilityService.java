@@ -6,8 +6,8 @@ import gr.athtech.groupName.rentonow.models.Property;
 
 import java.time.LocalDate;
 
+import gr.athtech.groupName.rentonow.dtos.AvailabilityDto;
 import gr.athtech.groupName.rentonow.dtos.ClosedDatesDto;
-import gr.athtech.groupName.rentonow.dtos.PropertyDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 
@@ -16,5 +16,5 @@ public interface AvailabilityService {
 
    Boolean isPropertyAvailable(Long propertyId, LocalDate startDate, LocalDate endDate);
 
-   PropertyDto setClosed(Long propertyId, ClosedDatesDto closedDatesDto) throws BadRequestException, NotFoundException;
+   AvailabilityDto setClosed(Long propertyId, ClosedDatesDto closedDatesDto) throws BadRequestException, NotFoundException;
 }

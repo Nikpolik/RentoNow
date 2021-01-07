@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController()
 @RequestMapping("/properties")
@@ -41,7 +43,7 @@ public class PropertyRestController {
     }
 
     @PutMapping("/")
-    public PropertyDto updateProperty(@RequestBody CreatePropertyDto propertyDto) throws NotFoundException {
+    public PropertyDto updateProperty(@RequestBody UpdatePropertyDto propertyDto) throws NotFoundException {
         return service.updateProperty(propertyDto);
     }
 
@@ -52,7 +54,7 @@ public class PropertyRestController {
     }
 
     @PostMapping("/{id}/closed")
-    public PropertyDto setClosed(@PathVariable Long id, @RequestBody ClosedDatesDto closedDatesDto)
+    public AvailabilityDto setClosed(@PathVariable Long id, @RequestBody ClosedDatesDto closedDatesDto)
             throws BadRequestException, NotFoundException {
         return availabilityService.setClosed(id, closedDatesDto);
     }

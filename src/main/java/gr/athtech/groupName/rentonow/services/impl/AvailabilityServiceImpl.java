@@ -11,9 +11,8 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
+import gr.athtech.groupName.rentonow.dtos.AvailabilityDto;
 import gr.athtech.groupName.rentonow.dtos.ClosedDatesDto;
-import gr.athtech.groupName.rentonow.dtos.PropertyDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.models.Availability;
@@ -39,7 +38,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
   }
 
   @Override
-  public PropertyDto setClosed(Long propertyId, ClosedDatesDto closedDatesDto) throws BadRequestException,
+  public AvailabilityDto setClosed(Long propertyId, ClosedDatesDto closedDatesDto) throws BadRequestException,
       NotFoundException {
 
     if (closedDatesDto.getStartDate() == null || closedDatesDto.getEndDate() == null) {
@@ -61,7 +60,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     availability.setProperty(property);
     availabilityRepository.save(availability);
 
-    return PropertyDto.fromProperty(property);
+    return AvailabilityDto.fromAvailability(availability);
   }
 
   @Override
