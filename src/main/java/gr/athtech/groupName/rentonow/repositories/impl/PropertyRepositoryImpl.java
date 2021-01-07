@@ -1,5 +1,6 @@
 package gr.athtech.groupName.rentonow.repositories.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class PropertyRepositoryImpl implements PropertyRepositoryCustom {
         // geography type but it is not supported yet in hibernate spatial
         Geometry searchCircle = searchParams.generateSearchCircle();
         ParameterExpression<Geometry> circleParam = null;
-        
+
         if (searchCircle != null) {
             circleParam = builder.parameter(Geometry.class);
             predicates.add(
@@ -59,14 +60,20 @@ public class PropertyRepositoryImpl implements PropertyRepositoryCustom {
         }
 
         if (searchParams.getStartDate() != null && searchParams.getEndDate() != null) {
-            // TODO validate start < end
-            // sql -> union propeties availabilites 
-            // sql -> property where property.id not in select availability.property where availability.startDate > searcStart and availability.endDate < searchEnd...
+            LocalDate start = searchParams.getStartDate();
+            LocalDate end = searchParams.getEndDate();
+            if (start.isAfter(end)) {
+                start = searchParams.getEndDate();
+                end = searchParams.getEndDate();
+            }
+
+            // This subquery calculates all the availabilites that are between start and end
+            // date and selects their property id so that they can be excluded from the search
             Subquery<Availability> subquery = query.subquery(Availability.class);
             Root<Availability> availability = subquery.from(Availability.class);
 
-            Predicate startCondition = builder.lessThanOrEqualTo(availability.get("endDate"), searchParams.getEndDate());
-            Predicate endCondition = builder.greaterThanOrEqualTo(availability.get("startDate"), searchParams.getStartDate());
+            Predicate endCondition = builder.lessThanOrEqualTo(availability.get("endDate"), end);
+            Predicate startCondition = builder.greaterThanOrEqualTo(availability.get("startDate"), start);
 
             subquery.select(availability.get("property")).where(builder.and(startCondition, endCondition));
 
@@ -84,7 +91,7 @@ public class PropertyRepositoryImpl implements PropertyRepositoryCustom {
 
         // we need to use a typed query in order to set parameters
         TypedQuery<Property> tq = em.createQuery(query);
-        tq.setMaxResults(searchParams.getSize()); 
+        tq.setMaxResults(searchParams.getSize());
         tq.setFirstResult(searchParams.getOffset());
         if (circleParam != null) {
             tq.setParameter(circleParam, searchCircle);
