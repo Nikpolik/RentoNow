@@ -15,7 +15,7 @@ public class Payment {
     private LocalDateTime paymentDate;
     private String paymentType;
     private BigDecimal amount;
-    @ManyToOne
-    private Property property;
+    @OneToOne
+    private Booking booking;
 
 }

@@ -2,8 +2,8 @@ package gr.athtech.groupName.rentonow.services.impl;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
+import gr.athtech.groupName.rentonow.dtos.ClosedOrBookedDatesDto;
 import gr.athtech.groupName.rentonow.dtos.BookingDto;
-import gr.athtech.groupName.rentonow.dtos.CreateBookingDto;
 import gr.athtech.groupName.rentonow.dtos.FindBookingDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
@@ -47,8 +47,7 @@ public class BookingServiceImplementation implements BookingService {
         List<Predicate> predicatesList = new ArrayList<>();
 
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        predicatesList.add(qBooking.guest.eq(currentUser));
-        predicatesList.add(qBooking.property.host.eq(currentUser));
+        predicatesList.add(qBooking.guest.eq(currentUser).or(qBooking.property.host.eq(currentUser)));
 
         Long guestId = findBookingDto.getGuestId();
         if (guestId != null) {
@@ -60,11 +59,11 @@ public class BookingServiceImplementation implements BookingService {
         }
         LocalDate fromDate = findBookingDto.getFromDate();
         if (fromDate != null) {
-            predicatesList.add(qBooking.startDate.goe(fromDate));
+            predicatesList.add(qBooking.availability.startDate.goe(fromDate));
         }
         LocalDate toDate = findBookingDto.getToDate();
         if (toDate != null) {
-            predicatesList.add(qBooking.startDate.loe(toDate));
+            predicatesList.add(qBooking.availability.startDate.loe(toDate));
         }
 
         Predicate allPredicates = ExpressionUtils.allOf(predicatesList);
@@ -87,25 +86,25 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public BookingDto createBooking(CreateBookingDto createBookingDto, Long propertyId) throws NotFoundException, BadRequestException {
-        if (createBookingDto == null || propertyId == null) {
+    public BookingDto createBooking(ClosedOrBookedDatesDto closedOrBookedDatesDto, Long propertyId) throws NotFoundException, BadRequestException {
+        if (closedOrBookedDatesDto == null || propertyId == null) {
             throw new BadRequestException("createBookingDto and propertyId cannot be null");
         }
-        if (createBookingDto.getStartDate() == createBookingDto.getEndDate()) {
+        if (closedOrBookedDatesDto.getStartDate() == closedOrBookedDatesDto.getEndDate()) {
             throw new BadRequestException("Start date and end date cannot be the same day");
         }
-        Boolean isPropertyAvailable = availabilityService.isPropertyAvailable(propertyId, createBookingDto.getStartDate(), createBookingDto.getEndDate());
+        Boolean isPropertyAvailable = availabilityService.isPropertyAvailable(propertyId, closedOrBookedDatesDto.getStartDate(), closedOrBookedDatesDto.getEndDate());
         if (!isPropertyAvailable) {
             throw new BadRequestException("The property of this booking is not available for the provided dates");
         }
-        Booking booking = CreateBookingDto.toBooking(createBookingDto);
+        Booking booking = new Booking();
         Property property = propertyService.findPropertyById(propertyId);
         booking.setProperty(property);
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         booking.setGuest(currentUser);
         booking.setCreationDate(LocalDateTime.now());
         booking = bookingRepository.saveAndFlush(booking);
-        Availability availability = availabilityService.setBooked(booking, property);
+        Availability availability = availabilityService.setBooked(booking, property, closedOrBookedDatesDto);
         booking.setAvailability(availability);
         bookingRepository.save(booking);
         return BookingDto.fromBooking(booking);

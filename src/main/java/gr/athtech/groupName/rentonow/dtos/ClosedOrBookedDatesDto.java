@@ -1,11 +1,11 @@
 package gr.athtech.groupName.rentonow.dtos;
 
-import java.time.LocalDate;
-
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
-public class ClosedDatesDto {
+public class ClosedOrBookedDatesDto {
   private LocalDate startDate;
   private LocalDate endDate;
 }

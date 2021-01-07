@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,8 +13,6 @@ public class Booking {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDate startDate;
-    private LocalDate endDate;
     @ManyToOne
     private User guest;
     @ManyToOne
@@ -23,4 +20,6 @@ public class Booking {
     private LocalDateTime creationDate;
     @OneToOne(cascade = CascadeType.ALL)
     private Availability availability;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Payment payment;
 }

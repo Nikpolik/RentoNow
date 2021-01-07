@@ -1,27 +1,20 @@
 package gr.athtech.groupName.rentonow.services.impl;
 
-import gr.athtech.groupName.rentonow.models.AvailabilityStatus;
-import gr.athtech.groupName.rentonow.models.Booking;
-import gr.athtech.groupName.rentonow.models.Property;
-import gr.athtech.groupName.rentonow.models.QAvailability;
-import gr.athtech.groupName.rentonow.models.User;
+import gr.athtech.groupName.rentonow.dtos.AvailabilityDto;
+import gr.athtech.groupName.rentonow.dtos.ClosedOrBookedDatesDto;
+import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
+import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
+import gr.athtech.groupName.rentonow.models.*;
 import gr.athtech.groupName.rentonow.repositories.AvailabilityRepository;
 import gr.athtech.groupName.rentonow.services.AvailabilityService;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
+import gr.athtech.groupName.rentonow.services.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import gr.athtech.groupName.rentonow.dtos.AvailabilityDto;
-import gr.athtech.groupName.rentonow.dtos.ClosedDatesDto;
-import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
-import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
-import gr.athtech.groupName.rentonow.models.Availability;
-import gr.athtech.groupName.rentonow.services.PropertyService;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AvailabilityServiceImpl implements AvailabilityService {
@@ -32,35 +25,35 @@ public class AvailabilityServiceImpl implements AvailabilityService {
   @Autowired
   PropertyService propertyService;
 
-  public Availability setBooked(Booking booking, Property property) {
+  public Availability setBooked(Booking booking, Property property, ClosedOrBookedDatesDto closedOrBookedDatesDto) {
     Availability availability = new Availability();
     availability.setBooking(booking);
-    availability.setStartDate(booking.getStartDate());
-    availability.setEndDate(booking.getEndDate());
+    availability.setStartDate(closedOrBookedDatesDto.getStartDate());
+    availability.setEndDate(closedOrBookedDatesDto.getEndDate());
     availability.setProperty(property);
     availability.setStatus(AvailabilityStatus.BOOKED);
     return availabilityRepository.save(availability);
   }
 
   @Override
-  public AvailabilityDto setClosed(Long propertyId, ClosedDatesDto closedDatesDto)
+  public AvailabilityDto setClosed(Long propertyId, ClosedOrBookedDatesDto closedOrBookedDatesDto)
       throws BadRequestException, NotFoundException {
 
-    if (closedDatesDto.getStartDate() == null || closedDatesDto.getEndDate() == null) {
+    if (closedOrBookedDatesDto.getStartDate() == null || closedOrBookedDatesDto.getEndDate() == null) {
       throw new BadRequestException("No start date or end date");
     }
 
-    LocalDate start = closedDatesDto.getStartDate();
-    LocalDate end = closedDatesDto.getEndDate();
+    LocalDate start = closedOrBookedDatesDto.getStartDate();
+    LocalDate end = closedOrBookedDatesDto.getEndDate();
     if (start.isAfter(end)) {
-      start = closedDatesDto.getEndDate();
-      end = closedDatesDto.getEndDate();
+      start = closedOrBookedDatesDto.getEndDate();
+      end = closedOrBookedDatesDto.getEndDate();
     }
 
     Property property = propertyService.findOwnedProperty(propertyId);
 
-    boolean isBooked = availabilityRepository.isUnavailableForPeriod(propertyId, closedDatesDto.getStartDate(),
-        closedDatesDto.getEndDate());
+    boolean isBooked = availabilityRepository.isUnavailableForPeriod(propertyId, closedOrBookedDatesDto.getStartDate(),
+        closedOrBookedDatesDto.getEndDate());
     if (isBooked) {
       throw new BadRequestException("You cannot set the property as closed during a period it is booked");
     }
