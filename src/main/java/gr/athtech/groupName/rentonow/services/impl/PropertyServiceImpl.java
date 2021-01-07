@@ -52,7 +52,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public PropertyDto updateProperty(CreatePropertyDto propertyDto) throws NotFoundException {
+    public PropertyDto updateProperty(UpdatePropertyDto propertyDto) throws NotFoundException {
         Property property = this.findOwnedProperty(propertyDto.getId());
 
         if (propertyDto.getAddress() != null) {

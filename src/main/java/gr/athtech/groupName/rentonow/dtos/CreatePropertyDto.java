@@ -18,7 +18,6 @@ import gr.athtech.groupName.rentonow.models.Property;
 @AllArgsConstructor
 public class CreatePropertyDto {
 
-    private Long id;
     private BigDecimal price;
     private String details;
     private String telephone;
@@ -36,7 +35,6 @@ public class CreatePropertyDto {
         property.setTelephone(createDto.getTelephone());
         property.setDetails(createDto.getDetails());
         property.setEmail(createDto.getEmail());
-        property.setId(createDto.getId());
         return property;
     }
 
