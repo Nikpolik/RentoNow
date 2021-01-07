@@ -8,4 +8,6 @@ public interface UserService {
 
   public UserDto update(UserDto updateUser);
 
+  public Boolean makeUserAdmin(Long id);
+
 }

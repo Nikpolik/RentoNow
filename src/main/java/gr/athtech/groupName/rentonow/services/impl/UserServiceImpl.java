@@ -1,11 +1,13 @@
 package gr.athtech.groupName.rentonow.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import gr.athtech.groupName.rentonow.dtos.UserDto;
+import gr.athtech.groupName.rentonow.models.Role;
 import gr.athtech.groupName.rentonow.models.User;
 import gr.athtech.groupName.rentonow.repositories.UserRepository;
 import gr.athtech.groupName.rentonow.services.UserService;
@@ -52,5 +54,14 @@ public class UserServiceImpl implements UserService {
     userRepository.save(currentUser);
 
     return UserDto.fromUser(currentUser);
+  }
+
+  @Override
+  @Secured("ADMIN")
+  public Boolean makeUserAdmin(Long id) {
+    User user = userRepository.getOne(id);
+    user.setRole(Role.ADMIN);
+    userRepository.save(user);
+    return true;
   }
 }
