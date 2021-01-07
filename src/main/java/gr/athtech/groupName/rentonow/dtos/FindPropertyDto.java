@@ -1,14 +1,18 @@
 package gr.athtech.groupName.rentonow.dtos;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.util.GeometricShapeFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Getter
 @Setter
 public class FindPropertyDto {
@@ -17,6 +21,19 @@ public class FindPropertyDto {
     Double latitude;
     Double longitude;
     Double distance;
+    Integer size;
+    Integer offset;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate endDate;
+
+    public FindPropertyDto() {
+        this.size = 15;
+        this.offset = 0;
+    }
 
     // This is a very naive way of generating a circle
     // since it doesn't take into account the curviture of the earth
@@ -40,10 +57,5 @@ public class FindPropertyDto {
         Coordinate center = new Coordinate(longitude, latitude);
         factory.setCentre(center);
         return factory.createCircle();
-    }
-
-    @Override
-    public String toString() {
-        return "Search params -> minPrice: " + minPrice + " maxPrice: " + maxPrice + " distance: " + distance;
     }
 }
