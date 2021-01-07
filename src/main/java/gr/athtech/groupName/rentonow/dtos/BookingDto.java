@@ -1,8 +1,6 @@
 package gr.athtech.groupName.rentonow.dtos;
 
 import gr.athtech.groupName.rentonow.models.Booking;
-import gr.athtech.groupName.rentonow.models.Property;
-import gr.athtech.groupName.rentonow.models.User;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,16 +10,15 @@ public class BookingDto {
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private User guest;
-    private Property property;
+    private UserDto guest;
+    private Long property;
 
     public static Booking toBooking(BookingDto bookingDto) {
         Booking booking = new Booking();
         booking.setId(bookingDto.getId());
         booking.setStartDate(bookingDto.getStartDate());
         booking.setEndDate(bookingDto.getEndDate());
-        booking.setGuest(bookingDto.getGuest());
-        booking.setProperty(bookingDto.getProperty());
+        booking.setGuest(UserDto.toUser(bookingDto.getGuest()));
         return booking;
     }
 
@@ -30,8 +27,8 @@ public class BookingDto {
         bookingDto.setId(booking.getId());
         bookingDto.setStartDate(booking.getStartDate());
         bookingDto.setEndDate(booking.getEndDate());
-        bookingDto.setGuest(booking.getGuest());
-        bookingDto.setProperty(booking.getProperty());
+        bookingDto.setGuest(UserDto.fromUser(booking.getGuest()));
+        bookingDto.setProperty(booking.getProperty().getId());
         return bookingDto;
     }
 }
