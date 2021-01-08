@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 import com.querydsl.core.Tuple;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import gr.athtech.groupName.rentonow.daos.StatisticsDao;
@@ -14,7 +13,6 @@ import gr.athtech.groupName.rentonow.dtos.StatisticsDto;
 import gr.athtech.groupName.rentonow.services.StatisticsService;
 
 @Service
-@PreAuthorize("hasRole(admin)")
 public class StatisticsServiceImpl implements StatisticsService {
 
   @Autowired

@@ -42,12 +42,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui/**", "/swagger-ui.html", "/webjars/**", "/v2/**", "/swagger-resources/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/properties/").permitAll() 
+                .antMatchers("/statistics/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
             .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager(), secret))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService, secret))
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().anonymous();
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     @Bean
