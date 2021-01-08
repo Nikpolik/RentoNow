@@ -10,4 +10,5 @@ import gr.athtech.groupName.rentonow.models.Image;
 public interface ImageService {
   public Image storeImage(Long propertyId, MultipartFile image)
       throws NotFoundException, BadRequestException, UploadException;
+  public String destroyImage(Long propertyId, Long imageId) throws NotFoundException, UploadException;
 }

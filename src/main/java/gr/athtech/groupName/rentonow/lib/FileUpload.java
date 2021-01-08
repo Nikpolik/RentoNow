@@ -36,12 +36,13 @@ public class FileUpload {
    */
   public Image uploadFile(MultipartFile file) throws UploadException {
     var options = ObjectUtils.asMap(
-      "resource_type", "auto",
+      "resource_type", "image",
       "filename", file.getOriginalFilename()
     );
     try {
       // for some reason cloudinary no longer accepts MultiPartFiles so we must
-      // send the bytes. The sample code is wrong
+      // send the bytes. The sample code is wrong. Maybe MultiPart no longer extends 
+      // java.io.file?
       // SDK line that does the file check
       // https://github.com/cloudinary/cloudinary_java/blob/master/cloudinary-http44/src/main/java/com/cloudinary/http44/UploaderStrategy.java#L114
       var response = this.cloudinaryClient.uploader().upload(file.getBytes(), options);
@@ -58,8 +59,16 @@ public class FileUpload {
     }
   }
 
-  public boolean destroyFile() {
-    return true;
+  public String destroyFile(String cloudinaryId) throws UploadException {
+    var options = ObjectUtils.asMap(
+      "resource_type", "image"
+    );
+    try {
+      var result = this.cloudinaryClient.uploader().destroy(cloudinaryId, options);
+      return (String) result.get("result");
+    } catch (IOException e) {
+      throw new UploadException();
+    }
   }
 
 }

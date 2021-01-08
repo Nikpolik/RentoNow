@@ -5,6 +5,7 @@ import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.exceptions.UploadException;
 import gr.athtech.groupName.rentonow.models.Image;
+import gr.athtech.groupName.rentonow.models.Property;
 import gr.athtech.groupName.rentonow.services.AvailabilityService;
 import gr.athtech.groupName.rentonow.services.BookingService;
 import gr.athtech.groupName.rentonow.services.ImageService;
@@ -67,9 +68,15 @@ public class PropertyRestController {
         return availabilityService.setClosed(id, closedOrBookedDatesDto);
     }
 
-    @PostMapping("/{id}/image")
+    @PostMapping("/{id}/images")
     public Image handleImageUpload(@PathVariable Long id, @RequestParam("file") MultipartFile file)
             throws NotFoundException, BadRequestException, UploadException {
         return imageService.storeImage(id, file);
+    }
+
+    @DeleteMapping("/{id}/images/{imageId}")
+    public String handleImageDelete(@PathVariable Long id, @PathVariable Long imageId)
+            throws NotFoundException, BadRequestException, UploadException {
+        return imageService.destroyImage(id, imageId);
     }
 }
