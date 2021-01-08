@@ -17,16 +17,9 @@ public class FileUpload {
   private final Cloudinary cloudinaryClient;
   private static final String ERROR_MESSAGE="Could not communicate to file upload server";
 
-  @Value("cloudinary.name")
-  private String name;
-
-  @Value("cloudinary.key")
-  private String key;
-
-  @Value("cloudinary.value")
-  private String secret;
-
-  public FileUpload()  {
+  public FileUpload(@Value("${cloudinary.name}") String name, 
+                    @Value("${cloudinary.key}") String key, 
+                    @Value("${cloudinary.secret}") String secret)  {
     var settings = ObjectUtils.asMap(
       "cloud_name", name,
       "api_key", key,
