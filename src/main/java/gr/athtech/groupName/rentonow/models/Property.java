@@ -29,8 +29,6 @@ public class Property {
     private User host;
 
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
-    private List<Payment> payments;
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Booking> bookings;
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
     private List<Availability> availabilities;
