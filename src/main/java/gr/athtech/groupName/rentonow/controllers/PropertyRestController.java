@@ -3,15 +3,20 @@ package gr.athtech.groupName.rentonow.controllers;
 import gr.athtech.groupName.rentonow.dtos.*;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
+import gr.athtech.groupName.rentonow.exceptions.UploadException;
+import gr.athtech.groupName.rentonow.models.Image;
 import gr.athtech.groupName.rentonow.services.AvailabilityService;
 import gr.athtech.groupName.rentonow.services.BookingService;
+import gr.athtech.groupName.rentonow.services.ImageService;
 import gr.athtech.groupName.rentonow.services.PropertyService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController()
 @RequestMapping("/properties")
@@ -22,6 +27,9 @@ public class PropertyRestController {
 
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     private AvailabilityService availabilityService;
@@ -56,5 +64,11 @@ public class PropertyRestController {
     public AvailabilityDto setClosed(@PathVariable Long id, @RequestBody ClosedOrBookedDatesDto closedOrBookedDatesDto)
             throws BadRequestException, NotFoundException {
         return availabilityService.setClosed(id, closedOrBookedDatesDto);
+    }
+
+    @PostMapping("/{id}/image")
+    public Image handleImageUpload(@PathVariable Long id, @RequestParam("file") MultipartFile file)
+            throws NotFoundException, BadRequestException, UploadException {
+        return imageService.storeImage(id, file);
     }
 }

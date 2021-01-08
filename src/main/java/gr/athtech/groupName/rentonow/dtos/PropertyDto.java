@@ -1,7 +1,9 @@
 package gr.athtech.groupName.rentonow.dtos;
 
 import java.math.BigDecimal;
+import java.util.List;
 
+import gr.athtech.groupName.rentonow.models.Image;
 import gr.athtech.groupName.rentonow.models.Property;
 import gr.athtech.groupName.rentonow.models.User;
 import lombok.Builder;
@@ -17,6 +19,7 @@ public class PropertyDto {
     private String email;
     private String address;
     private Long host;
+    private List<Image> images;
 
     public static PropertyDto fromProperty(Property property) {
         var builder = PropertyDto.builder();
@@ -27,6 +30,6 @@ public class PropertyDto {
         }
 
         return builder.id(property.getId()).email(property.getEmail()).details(property.getDetails())
-                .address(property.getAddress()).price(property.getPrice()).telephone(property.getTelephone()).build();
+                .address(property.getAddress()).price(property.getPrice()).telephone(property.getTelephone()).images(property.getImages()).build();
     }
 }
