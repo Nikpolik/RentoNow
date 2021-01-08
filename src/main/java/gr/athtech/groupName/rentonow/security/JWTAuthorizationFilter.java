@@ -29,9 +29,11 @@ import gr.athtech.groupName.rentonow.constants.SecurityConstants;
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
   private final UserDetailsService userDetailsService;
+  private final String secret;
 
-  public JWTAuthorizationFilter(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+  public JWTAuthorizationFilter(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, String secret) {
     super(authenticationManager);
+    this.secret = secret;
     this.userDetailsService = userDetailsService;
   }
 
@@ -54,7 +56,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     }
     try {
       String token = authHeader.split(" ")[1];
-      Algorithm algorithm = Algorithm.HMAC512(SecurityConstants.SECRET);
+      Algorithm algorithm = Algorithm.HMAC512(secret);
       JWTVerifier verifier = JWT.require(algorithm).build();
       DecodedJWT jwt = verifier.verify(token);
 

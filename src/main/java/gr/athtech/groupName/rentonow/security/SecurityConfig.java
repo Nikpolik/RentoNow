@@ -1,6 +1,7 @@
 package gr.athtech.groupName.rentonow.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -28,6 +29,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
 
+    @Value("${security.secret}")
+    private String secret;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -40,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/properties/").permitAll() 
                 .anyRequest().authenticated()
             .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService))
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), secret))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService, secret))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().anonymous();
     }

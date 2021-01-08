@@ -1,13 +1,6 @@
 package gr.athtech.groupName.rentonow.constants;
 
-import org.springframework.beans.factory.annotation.Value;
-
 public class SecurityConstants {
-
-  private SecurityConstants() {}
-
-  @Value("${security.secret}")
-  public static final String SECRET = "SECRET_KEY";
   public static final String TOKEN_PREFIX = "Bearer ";
   public static final String HEADER_STRING = "Authorization";
   public static final String SIGN_UP_URL = "/auth/register";  

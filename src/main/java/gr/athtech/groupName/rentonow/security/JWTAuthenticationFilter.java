@@ -26,9 +26,11 @@ import gr.athtech.groupName.rentonow.models.User;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
   private final AuthenticationManager authManager;
+  private final String secret;
 
-  public JWTAuthenticationFilter(AuthenticationManager manager) {
+  public JWTAuthenticationFilter(AuthenticationManager manager, String secret) {
     this.authManager = manager;
+    this.secret = secret;
     setFilterProcessesUrl(SecurityConstants.AUTH_URL);
   }
 
@@ -46,8 +48,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       User user = ((User) authentication.getPrincipal());
       List<String> roles = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
           .collect(Collectors.toList());
-      String key = SecurityConstants.SECRET;
-      Algorithm algorithm = Algorithm.HMAC512(key);
+      Algorithm algorithm = Algorithm.HMAC512(this.secret);
       Date expiresAt = new Date(System.currentTimeMillis() + SecurityConstants.TOKEN_DURATION);
       String token = JWT.create().withSubject(user.getUsername()).withIssuer(SecurityConstants.ISSUER)
           .withClaim("rol", roles).withExpiresAt(expiresAt).sign(algorithm);
