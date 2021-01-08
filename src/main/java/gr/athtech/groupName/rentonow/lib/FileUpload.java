@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,15 +16,21 @@ import gr.athtech.groupName.rentonow.models.Image;
 public class FileUpload {
   private final Cloudinary cloudinaryClient;
   private static final String ERROR_MESSAGE="Could not communicate to file upload server";
-  public static final String NAME = "dryomnjrg";
-  public static final String KEY = "877664312717859";
-  public static final String SECRET = "Hv1NNCbQ9OdHi5vBi-5FgrlWlZ0";
+
+  @Value("cloudinary.name")
+  private String name;
+
+  @Value("cloudinary.key")
+  private String key;
+
+  @Value("cloudinary.value")
+  private String secret;
 
   public FileUpload()  {
     var settings = ObjectUtils.asMap(
-      "cloud_name", NAME,
-      "api_key", KEY,
-      "api_secret", SECRET
+      "cloud_name", name,
+      "api_key", key,
+      "api_secret", secret
     );
     this.cloudinaryClient = new Cloudinary(settings);
   }
