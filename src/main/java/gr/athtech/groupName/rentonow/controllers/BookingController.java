@@ -2,10 +2,12 @@ package gr.athtech.groupName.rentonow.controllers;
 
 import gr.athtech.groupName.rentonow.dtos.BookingDto;
 import gr.athtech.groupName.rentonow.dtos.FindBookingDto;
+import gr.athtech.groupName.rentonow.dtos.PaymentDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 import gr.athtech.groupName.rentonow.models.Booking;
 import gr.athtech.groupName.rentonow.services.BookingService;
+import gr.athtech.groupName.rentonow.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +15,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "bookings")
-public class BookingRestController {
+public class BookingController {
 
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private PaymentService paymentService;
 
     @GetMapping
     public Page<Booking> getBookings(@RequestParam(name = "num", required = false) Integer num,
@@ -35,6 +40,11 @@ public class BookingRestController {
     @DeleteMapping(value = "/{id}")
     public void cancelBooking(@PathVariable Long id) throws NotFoundException, BadRequestException {
         bookingService.deleteBooking(id);
+    }
+
+    @PostMapping(value = "/{id}/payment")
+    public PaymentDto createPayment(@PathVariable Long id, @RequestBody PaymentDto paymentDto) throws NotFoundException {
+        return paymentService.createPayment(paymentDto, id);
     }
 
 }

@@ -13,9 +13,9 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime paymentDate;
-    private String paymentType;
+    private PaymentType paymentType;
     private BigDecimal amount;
-    @OneToOne
-    private Booking booking;
+    private Long bookingId;
+    private PaymentStatus paymentStatus;
 
 }
