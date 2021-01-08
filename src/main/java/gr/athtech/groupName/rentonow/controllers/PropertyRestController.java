@@ -40,8 +40,9 @@ public class PropertyRestController {
     }
 
     @GetMapping("/{id}")
-    public String getProperty() {
-        return "getProperty";
+    public PropertyDto getProperty(@PathVariable Long id) throws NotFoundException {
+        Property property = service.findPropertyById(id);
+        return PropertyDto.fromProperty(property);
     }
 
     @PostMapping("/")
