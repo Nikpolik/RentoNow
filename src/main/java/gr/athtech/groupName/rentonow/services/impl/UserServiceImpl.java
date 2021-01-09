@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
     return UserDto.fromUser(user);
   }
 
+
   @Override
   public UserDto update(UserDto updateUser) {
     User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

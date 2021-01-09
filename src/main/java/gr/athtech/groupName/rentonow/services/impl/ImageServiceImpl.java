@@ -1,6 +1,5 @@
 package gr.athtech.groupName.rentonow.services.impl;
 
-import java.io.IOException;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
