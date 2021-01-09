@@ -35,8 +35,8 @@ public class StatisticsDaoImpl implements StatisticsDao {
     JPAQueryFactory query = new JPAQueryFactory(em);
     QUser host = qBooking.property.host;
     return query.from(qBooking)
-                .groupBy(host, host.name)
-                .select(host.id, host.count(), host.name)
+                .groupBy(host, host.username)
+                .select(host.id, host.count(), host.username)
                 .fetch();
   }
 
