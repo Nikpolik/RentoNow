@@ -37,12 +37,30 @@ public class BookingServiceImplementation implements BookingService {
     @Autowired
     private AvailabilityServiceImpl availabilityService;
 
+    /**
+     * A method that searches for Bookings according to
+     * specific search criteria including page parameters
+     * as well as propertyId, guestId, fromDate and toDate.
+     *
+     * @param num for the number of page required
+     * @param size for the size of the page required
+     * @param sortBy to indicate the column by which the results
+     *        will be sorted
+     * @param direction to indicate the direction of the sorting
+     * @param findBookingDto with the search criteria
+     * @return a Page of Bookings
+     * @throws BadRequestException when all of the parameters
+     *         provided are null
+     */
     @Override
     public Page<Booking> getBookings(Integer num, Integer size, String sortBy, String direction, FindBookingDto findBookingDto) throws BadRequestException {
         if (num == null || size == null || sortBy == null || direction == null) {
             throw new BadRequestException("One or all of the page parameters are null");
         }
 
+        if (findBookingDto == null || findBookingDto.isEmpty()) {
+            throw new BadRequestException("At least one of the search criteria should be provided");
+        }
         QBooking qBooking = QBooking.booking;
         List<Predicate> predicatesList = new ArrayList<>();
 
@@ -76,6 +94,16 @@ public class BookingServiceImplementation implements BookingService {
         return bookingRepository.findAll(allPredicates, p);
     }
 
+    /**
+     * A method that retrieves a Booking by its id and
+     * returns the corresponding BookingDto.
+     *
+     * @param id for the id of the required Booking
+     * @return the corresponding BookingDto for the
+     * required Booking
+     * @throws NotFoundException when there is no
+     * Booking with the provided id
+     */
     @Override
     public BookingDto getBookingById(Long id) throws NotFoundException {
         Optional<Booking> booking = bookingRepository.findById(id);
@@ -85,6 +113,22 @@ public class BookingServiceImplementation implements BookingService {
         return BookingDto.fromBooking(booking.get());
     }
 
+    /**
+     * A method that creates a Booking for the provided
+     * propertyId and for the dates provided in the
+     * closedOrBookedDatesDto parameter.
+     * @param closedOrBookedDatesDto including the dates
+     * this booking concerns
+     * @param propertyId for the id of the property which
+     * this booking concerns
+     * @return the corresponding BookingDto of the created
+     * Booking
+     * @throws NotFoundException when there is no property
+     * with the provided propertyId
+     * @throws BadRequestException when one of the parameters
+     * is null or when the startDate and endDate of the booking
+     * are equal
+     */
     @Override
     public BookingDto createBooking(ClosedOrBookedDatesDto closedOrBookedDatesDto, Long propertyId) throws NotFoundException, BadRequestException {
         if (closedOrBookedDatesDto == null || propertyId == null) {
@@ -110,6 +154,13 @@ public class BookingServiceImplementation implements BookingService {
         return BookingDto.fromBooking(booking);
     }
 
+    /**
+     * A method to delete a booking by its id
+     * @param bookingId for the od of the booking to be deleted
+     * @throws BadRequestException when the bookingId provided is null
+     * @throws NotFoundException when there is no booking with the
+     * provided bookingId
+     */
     @Override
     public void deleteBooking(Long bookingId) throws BadRequestException, NotFoundException {
         if (bookingId == null) {
