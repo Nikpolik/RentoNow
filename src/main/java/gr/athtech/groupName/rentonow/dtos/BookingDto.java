@@ -11,7 +11,7 @@ public class BookingDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private UserDto guest;
-    private Long property;
+    private Long propertyId;
 
     public static BookingDto fromBooking(Booking booking) {
         BookingDto bookingDto = new BookingDto();
@@ -19,7 +19,7 @@ public class BookingDto {
         bookingDto.setStartDate(booking.getAvailability().getStartDate());
         bookingDto.setEndDate(booking.getAvailability().getEndDate());
         bookingDto.setGuest(UserDto.fromUser(booking.getGuest()));
-        bookingDto.setProperty(booking.getProperty().getId());
+        bookingDto.setPropertyId(booking.getProperty().getId());
         return bookingDto;
     }
 }
