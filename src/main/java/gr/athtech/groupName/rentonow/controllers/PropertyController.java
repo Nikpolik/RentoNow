@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController()
 @RequestMapping("/properties")
-public class PropertyRestController {
+public class PropertyController {
 
     @Autowired
     PropertyService service;

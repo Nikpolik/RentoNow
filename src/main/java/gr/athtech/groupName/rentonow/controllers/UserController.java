@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestController
-public class UserRestController {
+public class UserController {
 
   @Autowired
   UserService userService;
