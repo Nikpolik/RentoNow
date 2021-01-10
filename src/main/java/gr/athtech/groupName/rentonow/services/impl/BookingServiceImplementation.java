@@ -155,9 +155,12 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     /**
-     * A method to delete a booking by its id
+     * A method to delete a booking by its id (only allowed to
+     * the host of the booking's property and the admin)
      * @param bookingId for the od of the booking to be deleted
      * @throws BadRequestException when the bookingId provided is null
+     * or the user trying to delete the booking is not the host of the
+     * booking's property or admin
      * @throws NotFoundException when there is no booking with the
      * provided bookingId
      */
@@ -166,7 +169,19 @@ public class BookingServiceImplementation implements BookingService {
         if (bookingId == null) {
             throw new BadRequestException("The bookingId cannot de null");
         }
-        getBookingById(bookingId);
+        //Check if the booking exists
+        BookingDto bookingDto = getBookingById(bookingId);
+
+        //Retrieve the booking's property
+        Property property = propertyService.findPropertyById(bookingDto.getPropertyId());
+
+        //Check if current user is the host of the booking's property or admin
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        boolean currentUserIsNotTheHost = !property.getHost().getId().equals(currentUser.getId());
+        boolean currentUserIsNotAdmin = !currentUser.getRole().equals(Role.ADMIN);
+        if (currentUserIsNotAdmin && currentUserIsNotTheHost) {
+            throw new BadRequestException("Only the host of a property or the admin can delete one of its bookings");
+        }
         bookingRepository.deleteById(bookingId);
     }
 
