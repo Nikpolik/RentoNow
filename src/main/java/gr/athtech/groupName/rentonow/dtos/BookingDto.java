@@ -3,6 +3,7 @@ package gr.athtech.groupName.rentonow.dtos;
 import gr.athtech.groupName.rentonow.models.Booking;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -12,6 +13,7 @@ public class BookingDto {
     private LocalDate endDate;
     private UserDto guest;
     private Long propertyId;
+    private BigDecimal price;
 
     public static BookingDto fromBooking(Booking booking) {
         BookingDto bookingDto = new BookingDto();
@@ -20,6 +22,7 @@ public class BookingDto {
         bookingDto.setEndDate(booking.getAvailability().getEndDate());
         bookingDto.setGuest(UserDto.fromUser(booking.getGuest()));
         bookingDto.setPropertyId(booking.getProperty().getId());
+        bookingDto.setPrice(booking.getPrice());
         return bookingDto;
     }
 }

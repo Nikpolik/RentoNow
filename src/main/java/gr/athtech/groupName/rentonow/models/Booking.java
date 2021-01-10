@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,6 +18,7 @@ public class Booking {
     private User guest;
     @ManyToOne
     private Property property;
+    private BigDecimal price;
     private LocalDateTime creationDate;
     @OneToOne(cascade = CascadeType.ALL)
     private Availability availability;

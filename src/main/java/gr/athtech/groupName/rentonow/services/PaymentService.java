@@ -4,6 +4,6 @@ import gr.athtech.groupName.rentonow.dtos.PaymentDto;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
 
 public interface PaymentService {
-    PaymentDto createPayment(PaymentDto paymentDto, Long bookingId) throws NotFoundException;
-    PaymentDto finalizePayment(Long paymentId) throws NotFoundException;
+    PaymentDto createPayment(Long bookingId) throws NotFoundException;
+    PaymentDto finalizePayment(Long paymentId, String paymentType) throws NotFoundException;
 }

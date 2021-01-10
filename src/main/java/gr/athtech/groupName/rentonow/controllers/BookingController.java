@@ -43,8 +43,8 @@ public class BookingController {
     }
 
     @PostMapping(value = "/{id}/payment")
-    public PaymentDto createPayment(@PathVariable Long id, @RequestBody PaymentDto paymentDto) throws NotFoundException {
-        return paymentService.createPayment(paymentDto, id);
+    public PaymentDto createPayment(@PathVariable Long id) throws NotFoundException {
+        return paymentService.createPayment(id);
     }
 
 }
