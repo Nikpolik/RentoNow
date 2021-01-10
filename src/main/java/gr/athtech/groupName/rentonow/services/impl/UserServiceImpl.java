@@ -1,5 +1,6 @@
 package gr.athtech.groupName.rentonow.services.impl;
 
+import gr.athtech.groupName.rentonow.aspect.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
   @Autowired
   private UserRepository userRepository;
 
+  @Logged
   @Override
   public UserDto register(UserDto newUserDto) {
     User user = UserDto.toUser(newUserDto);
@@ -31,7 +33,7 @@ public class UserServiceImpl implements UserService {
     return UserDto.fromUser(user);
   }
 
-
+  @Logged
   @Override
   public UserDto update(UserDto updateUser) {
     User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -58,6 +60,7 @@ public class UserServiceImpl implements UserService {
     return UserDto.fromUser(currentUser);
   }
 
+  @Logged
   @Override
   @Secured("ADMIN")
   public Boolean makeUserAdmin(Long id) {

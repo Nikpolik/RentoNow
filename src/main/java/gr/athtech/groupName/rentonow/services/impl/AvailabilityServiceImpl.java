@@ -1,5 +1,6 @@
 package gr.athtech.groupName.rentonow.services.impl;
 
+import gr.athtech.groupName.rentonow.aspect.Logged;
 import gr.athtech.groupName.rentonow.dtos.AvailabilityDto;
 import gr.athtech.groupName.rentonow.dtos.ClosedOrBookedDatesDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
@@ -25,6 +26,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
   @Autowired
   private PropertyService propertyService;
 
+  @Logged
   @Override
   public Availability setBooked(Booking booking, Property property, ClosedOrBookedDatesDto closedOrBookedDatesDto) throws BadRequestException {
     if (booking == null || property == null || closedOrBookedDatesDto == null) {
@@ -50,6 +52,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     return availabilityRepository.save(availability);
   }
 
+  @Logged
   @Override
   public AvailabilityDto setClosed(Long propertyId, ClosedOrBookedDatesDto closedOrBookedDatesDto)
       throws BadRequestException, NotFoundException {
@@ -83,6 +86,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     return AvailabilityDto.fromAvailability(availability);
   }
 
+  @Logged
   @Override
   public Boolean isPropertyAvailable(Long propertyId, LocalDate startDate, LocalDate endDate) throws BadRequestException {
     if (propertyId == null || startDate == null || endDate == null) {
@@ -91,6 +95,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     return !availabilityRepository.isUnavailableForPeriod(propertyId, startDate, endDate);
   }
 
+  @Logged
   @Override
   public List<AvailabilityDto> getClosedPropertiesDates() {
     User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -101,6 +106,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     return dtos;
   }
 
+  @Logged
   @Override
   public Boolean deleteAvailability(Long id) throws NotFoundException {
     User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

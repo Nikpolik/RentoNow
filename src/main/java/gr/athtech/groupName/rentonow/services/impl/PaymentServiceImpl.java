@@ -1,8 +1,10 @@
 package gr.athtech.groupName.rentonow.services.impl;
 
+import gr.athtech.groupName.rentonow.aspect.Logged;
 import gr.athtech.groupName.rentonow.dtos.BookingDto;
 import gr.athtech.groupName.rentonow.dtos.PaymentDto;
 import gr.athtech.groupName.rentonow.exceptions.NotFoundException;
+import gr.athtech.groupName.rentonow.models.Booking;
 import gr.athtech.groupName.rentonow.models.Payment;
 import gr.athtech.groupName.rentonow.models.PaymentStatus;
 import gr.athtech.groupName.rentonow.models.PaymentType;
@@ -24,17 +26,19 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Logged
     @Override
     public PaymentDto createPayment(Long bookingId) throws NotFoundException {
-        BookingDto bookingDto = bookingService.getBookingById(bookingId);
+        Booking booking = bookingService.getBookingById(bookingId);
         Payment payment = new Payment();
         payment.setPaymentDate(LocalDateTime.now());
-        payment.setAmount(bookingDto.getPrice());
+        payment.setAmount(booking.getPrice());
         payment.setBookingId(bookingId);
         payment.setPaymentStatus(PaymentStatus.PENDING);
         return PaymentDto.fromPayment(paymentRepository.save(payment));
     }
 
+    @Logged
     @Override
     public PaymentDto finalizePayment(Long paymentId, String paymentType) throws NotFoundException {
         Optional<Payment> paymentOptional = paymentRepository.findById(paymentId);

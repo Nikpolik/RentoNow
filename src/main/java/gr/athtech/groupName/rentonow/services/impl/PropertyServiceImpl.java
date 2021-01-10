@@ -3,6 +3,7 @@ package gr.athtech.groupName.rentonow.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import gr.athtech.groupName.rentonow.aspect.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,6 +27,7 @@ public class PropertyServiceImpl implements PropertyService {
     @Autowired
     private PropertyRepository propertyRepository;
 
+    @Logged
     @Override
     public PropertyDto saveProperty(CreatePropertyDto createDto) {
         User currentUser = (User) SecurityContextHolder.getContext()
@@ -35,6 +37,7 @@ public class PropertyServiceImpl implements PropertyService {
         return PropertyDto.fromProperty(propertyRepository.save(property));
     }
 
+    @Logged
     @Override
     public List<PropertyDto> findProperties(FindPropertyDto searchParams) {
 
@@ -55,6 +58,7 @@ public class PropertyServiceImpl implements PropertyService {
         return property.get();
     }
 
+    @Logged
     @Override
     @CacheEvict(cacheNames = "properties", key = "#result.id" )
     public PropertyDto updateProperty(UpdatePropertyDto propertyDto) throws NotFoundException {
@@ -82,6 +86,7 @@ public class PropertyServiceImpl implements PropertyService {
         return PropertyDto.fromProperty(propertyRepository.save(property));
     }
 
+    @Logged
     @Cacheable("properties")
     public Property findPropertyById(Long propertyId) throws NotFoundException {
         return propertyRepository.findById(propertyId).orElseThrow(() -> new NotFoundException("There is no property with the id provided"));

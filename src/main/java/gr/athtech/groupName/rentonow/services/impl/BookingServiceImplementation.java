@@ -2,6 +2,7 @@ package gr.athtech.groupName.rentonow.services.impl;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
+import gr.athtech.groupName.rentonow.aspect.Logged;
 import gr.athtech.groupName.rentonow.dtos.ClosedOrBookedDatesDto;
 import gr.athtech.groupName.rentonow.dtos.FindBookingDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
@@ -38,6 +39,7 @@ public class BookingServiceImplementation implements BookingService {
     @Autowired
     private AvailabilityServiceImpl availabilityService;
 
+    @Logged
     @Override
     public Page<Booking> getBookings(Integer num, Integer size, String sortBy, String direction, FindBookingDto findBookingDto) throws BadRequestException {
         if (num == null || size == null || sortBy == null || direction == null) {
@@ -80,6 +82,7 @@ public class BookingServiceImplementation implements BookingService {
         return bookingRepository.findAll(allPredicates, p);
     }
 
+    @Logged
     @Override
     @CacheEvict(cacheNames = "bookings", key = "#id" )
     public Booking getBookingById(Long id) throws NotFoundException {
@@ -90,6 +93,7 @@ public class BookingServiceImplementation implements BookingService {
         return booking.get();
     }
 
+    @Logged
     @Override
     @Cacheable("bookings")
     public Booking createBooking(ClosedOrBookedDatesDto closedOrBookedDatesDto, Long propertyId) throws NotFoundException, BadRequestException {
@@ -115,6 +119,7 @@ public class BookingServiceImplementation implements BookingService {
         return bookingRepository.save(booking);
     }
 
+    @Logged
     @Override
     public void deleteBooking(Long bookingId) throws BadRequestException, NotFoundException {
         if (bookingId == null) {

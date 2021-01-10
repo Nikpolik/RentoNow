@@ -2,6 +2,7 @@ package gr.athtech.groupName.rentonow.services.impl;
 
 import java.util.Set;
 
+import gr.athtech.groupName.rentonow.aspect.Logged;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ public class ImageServiceImpl implements ImageService {
   @Autowired
   FileUpload fileUploader;
 
+  @Logged
   @Override
   public Image storeImage(Long propertyId, MultipartFile image)
       throws NotFoundException, BadRequestException, UploadException {
@@ -64,6 +66,7 @@ public class ImageServiceImpl implements ImageService {
     return size >= MIN_SIZE && size <= MAX_SIZE;
   }
 
+  @Logged
   @Override
   public String destroyImage(Long propertyId, Long imageId) throws NotFoundException, UploadException {
     Image image = imageRepository.getOne(imageId);
