@@ -2,7 +2,6 @@ package gr.athtech.groupName.rentonow.services.impl;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
-import gr.athtech.groupName.rentonow.dtos.BookingDto;
 import gr.athtech.groupName.rentonow.dtos.ClosedOrBookedDatesDto;
 import gr.athtech.groupName.rentonow.dtos.FindBookingDto;
 import gr.athtech.groupName.rentonow.exceptions.BadRequestException;
@@ -13,6 +12,7 @@ import gr.athtech.groupName.rentonow.services.BookingService;
 import gr.athtech.groupName.rentonow.services.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +39,6 @@ public class BookingServiceImplementation implements BookingService {
     private AvailabilityServiceImpl availabilityService;
 
     @Override
-    @CacheEvict(value = "bookings", key = "#booking.id")
     public Page<Booking> getBookings(Integer num, Integer size, String sortBy, String direction, FindBookingDto findBookingDto) throws BadRequestException {
         if (num == null || size == null || sortBy == null || direction == null) {
             throw new BadRequestException("One or all of the page parameters are null");
@@ -82,16 +81,18 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public BookingDto getBookingById(Long id) throws NotFoundException {
+    @CacheEvict(cacheNames = "bookings", key = "#id" )
+    public Booking getBookingById(Long id) throws NotFoundException {
         Optional<Booking> booking = bookingRepository.findById(id);
         if (booking.isEmpty()) {
             throw new NotFoundException("There is no booking with the provided id");
         }
-        return BookingDto.fromBooking(booking.get());
+        return booking.get();
     }
 
     @Override
-    public BookingDto createBooking(ClosedOrBookedDatesDto closedOrBookedDatesDto, Long propertyId) throws NotFoundException, BadRequestException {
+    @Cacheable("bookings")
+    public Booking createBooking(ClosedOrBookedDatesDto closedOrBookedDatesDto, Long propertyId) throws NotFoundException, BadRequestException {
         if (closedOrBookedDatesDto == null || propertyId == null) {
             throw new BadRequestException("createBookingDto and propertyId cannot be null");
         }
@@ -111,8 +112,7 @@ public class BookingServiceImplementation implements BookingService {
         booking = bookingRepository.saveAndFlush(booking);
         Availability availability = availabilityService.setBooked(booking, property, closedOrBookedDatesDto);
         booking.setAvailability(availability);
-        bookingRepository.save(booking);
-        return BookingDto.fromBooking(booking);
+        return bookingRepository.save(booking);
     }
 
     @Override
@@ -121,10 +121,10 @@ public class BookingServiceImplementation implements BookingService {
             throw new BadRequestException("The bookingId cannot de null");
         }
         //Check if the booking exists
-        BookingDto bookingDto = getBookingById(bookingId);
+        Booking booking = getBookingById(bookingId);
 
         //Retrieve the booking's property
-        Property property = propertyService.findPropertyById(bookingDto.getPropertyId());
+        Property property = propertyService.findPropertyById(booking.getProperty().getId());
 
         //Check if current user is the host of the booking's property or admin
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

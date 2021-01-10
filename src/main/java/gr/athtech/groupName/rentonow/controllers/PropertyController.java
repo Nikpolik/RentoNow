@@ -10,21 +10,18 @@ import gr.athtech.groupName.rentonow.services.AvailabilityService;
 import gr.athtech.groupName.rentonow.services.BookingService;
 import gr.athtech.groupName.rentonow.services.ImageService;
 import gr.athtech.groupName.rentonow.services.PropertyService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController()
 @RequestMapping("/properties")
 public class PropertyController {
 
     @Autowired
-    PropertyService service;
+    private PropertyService service;
 
     @Autowired
     private BookingService bookingService;
@@ -59,7 +56,7 @@ public class PropertyController {
     @PostMapping("/{id}/bookings")
     public BookingDto createBooking(@PathVariable Long id, @RequestBody ClosedOrBookedDatesDto closedOrBookedDatesDto)
             throws NotFoundException, BadRequestException {
-        return bookingService.createBooking(closedOrBookedDatesDto, id);
+        return BookingDto.fromBooking(bookingService.createBooking(closedOrBookedDatesDto, id));
     }
 
     @PostMapping("/{id}/closed")
@@ -76,7 +73,7 @@ public class PropertyController {
 
     @DeleteMapping("/{id}/images/{imageId}")
     public String handleImageDelete(@PathVariable Long id, @PathVariable Long imageId)
-            throws NotFoundException, BadRequestException, UploadException {
+            throws NotFoundException, UploadException {
         return imageService.destroyImage(id, imageId);
     }
 }

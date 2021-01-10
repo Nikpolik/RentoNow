@@ -34,7 +34,7 @@ public class BookingController {
 
     @GetMapping(value = "/{id}")
     public BookingDto getBookingById(@PathVariable Long id) throws NotFoundException {
-        return bookingService.getBookingById(id);
+        return BookingDto.fromBooking(bookingService.getBookingById(id));
     }
 
     @DeleteMapping(value = "/{id}")

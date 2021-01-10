@@ -33,12 +33,11 @@ public interface BookingService {
      * returns the corresponding BookingDto.
      *
      * @param id for the id of the required Booking
-     * @return the corresponding BookingDto for the
-     * required Booking
+     * @return the required Booking
      * @throws NotFoundException when there is no
      * Booking with the provided id
      */
-    BookingDto getBookingById(Long id) throws NotFoundException;
+    Booking getBookingById(Long id) throws NotFoundException;
 
     /**
      * A method that creates a Booking for the provided
@@ -49,15 +48,14 @@ public interface BookingService {
      * this booking concerns
      * @param propertyId for the id of the property which
      * this booking concerns
-     * @return the corresponding BookingDto of the created
-     * Booking
+     * @return the created Booking
      * @throws NotFoundException when there is no property
      * with the provided propertyId
      * @throws BadRequestException when one of the parameters
      * is null or when the startDate and endDate of the booking
      * are equal
      */
-    BookingDto createBooking(ClosedOrBookedDatesDto closedOrBookedDatesDto, Long propertyId) throws NotFoundException, BadRequestException;
+    Booking createBooking(ClosedOrBookedDatesDto closedOrBookedDatesDto, Long propertyId) throws NotFoundException, BadRequestException;
 
     /**
      * A method to delete a booking by its id (only allowed to
