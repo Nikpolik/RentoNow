@@ -10,4 +10,8 @@ public class FindBookingDto {
     private Long propertyId;
     private LocalDate fromDate;
     private LocalDate toDate;
+
+    public Boolean isEmpty() {
+        return guestId == null && propertyId == null && fromDate == null && toDate == null;
+    }
 }
