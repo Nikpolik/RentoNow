@@ -20,7 +20,7 @@ public class AvailabilityController {
   AvailabilityService availabilityService;
   /**
    * 
-   * @return return all the availabilities that bellong to properties of the current user
+   * @return return all the availabilities that belong to properties of the current user
    */
   @GetMapping("/")
   public List<AvailabilityDto> getAvailabilities() {

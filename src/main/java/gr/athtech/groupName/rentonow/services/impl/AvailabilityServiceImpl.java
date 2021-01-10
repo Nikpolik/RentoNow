@@ -23,7 +23,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
   private AvailabilityRepository availabilityRepository;
 
   @Autowired
-  PropertyService propertyService;
+  private PropertyService propertyService;
 
   @Override
   public Availability setBooked(Booking booking, Property property, ClosedOrBookedDatesDto closedOrBookedDatesDto) throws BadRequestException {
@@ -33,6 +33,10 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
     LocalDate startDate = closedOrBookedDatesDto.getStartDate();
     LocalDate endDate = closedOrBookedDatesDto.getEndDate();
+    if (startDate == null || endDate == null) {
+       throw new BadRequestException("Start or end date provided is null");
+    }
+
     if (startDate.isAfter(endDate) || startDate == endDate) {
       throw new BadRequestException("The start date provided should not be equal or later than the end date provided");
     }
