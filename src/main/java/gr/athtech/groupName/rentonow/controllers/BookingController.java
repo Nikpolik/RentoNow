@@ -24,10 +24,10 @@ public class BookingController {
     private PaymentService paymentService;
 
     @GetMapping
-    public Page<Booking> getBookings(@RequestParam(name = "num", required = false) Integer num,
-                                     @RequestParam(name = "size", required = false) Integer size,
-                                     @RequestParam(name = "sortBy", required = false) String sortBy,
-                                     @RequestParam(name = "direction", required = false) String direction,
+    public Page<Booking> getBookings(@RequestParam(name = "num", required = false, defaultValue = "0") Integer num,
+                                     @RequestParam(name = "size", required = false, defaultValue = "10") Integer size,
+                                     @RequestParam(name = "sortBy", required = false, defaultValue = "id") String sortBy,
+                                     @RequestParam(name = "direction", required = false, defaultValue = "asc") String direction,
                                      @RequestBody FindBookingDto findBookingDto) throws BadRequestException {
         return bookingService.getBookings(num, size, sortBy, direction, findBookingDto);
     }
