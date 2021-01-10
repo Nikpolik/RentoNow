@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
     User user = UserDto.toUser(newUserDto);
     String hashedPassword = passwordEncoder.encode(newUserDto.getPassword());
     user.setPassword(hashedPassword);
+    user.setRole(Role.USER);
     user = userRepository.save(user);
     return UserDto.fromUser(user);
   }
