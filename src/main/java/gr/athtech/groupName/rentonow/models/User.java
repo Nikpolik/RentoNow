@@ -32,6 +32,9 @@ public class User implements UserDetails {
     private String name;
     private String telephone;
     private String email;
+
+    @Enumerated
+    @Column(nullable = false, columnDefinition = "smallint")
     private Role role;
 
     @Override
