@@ -17,8 +17,10 @@ public class Availability {
     private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
+    @ToString.Exclude
     @ManyToOne
     private Property property;
+    @ToString.Exclude
     @OneToOne
     private Booking booking;
     @Enumerated(EnumType.ORDINAL)

@@ -1,6 +1,7 @@
 package gr.athtech.groupName.rentonow.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import gr.athtech.groupName.rentonow.aspect.Logged;
 import lombok.Data;
 import lombok.ToString;
 
@@ -18,6 +19,7 @@ public class Booking {
     private Long id;
     @ManyToOne
     private User guest;
+    @ToString.Exclude
     @ManyToOne
     private Property property;
     private BigDecimal price;

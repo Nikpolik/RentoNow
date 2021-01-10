@@ -3,11 +3,9 @@ package gr.athtech.groupName.rentonow.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.ToString;
-
-import javax.persistence.*;
-
 import org.locationtech.jts.geom.Point;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -21,6 +19,7 @@ public class Property {
     private Long id;
 
     private BigDecimal price;
+    @ToString.Exclude
     private Point location;
     private String address;
     private String details;
