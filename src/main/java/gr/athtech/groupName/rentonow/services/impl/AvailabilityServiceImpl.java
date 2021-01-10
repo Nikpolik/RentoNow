@@ -25,7 +25,18 @@ public class AvailabilityServiceImpl implements AvailabilityService {
   @Autowired
   PropertyService propertyService;
 
-  public Availability setBooked(Booking booking, Property property, ClosedOrBookedDatesDto closedOrBookedDatesDto) {
+  @Override
+  public Availability setBooked(Booking booking, Property property, ClosedOrBookedDatesDto closedOrBookedDatesDto) throws BadRequestException {
+    if (booking == null || property == null || closedOrBookedDatesDto == null) {
+      throw new BadRequestException("One or more of the parameters provided is null");
+    }
+
+    LocalDate startDate = closedOrBookedDatesDto.getStartDate();
+    LocalDate endDate = closedOrBookedDatesDto.getEndDate();
+    if (startDate.isAfter(endDate) || startDate == endDate) {
+      throw new BadRequestException("The start date provided should not be equal or later than the end date provided");
+    }
+
     Availability availability = new Availability();
     availability.setBooking(booking);
     availability.setStartDate(closedOrBookedDatesDto.getStartDate());
@@ -69,7 +80,10 @@ public class AvailabilityServiceImpl implements AvailabilityService {
   }
 
   @Override
-  public Boolean isPropertyAvailable(Long propertyId, LocalDate startDate, LocalDate endDate) {
+  public Boolean isPropertyAvailable(Long propertyId, LocalDate startDate, LocalDate endDate) throws BadRequestException {
+    if (propertyId == null || startDate == null || endDate == null) {
+      throw new BadRequestException("One or more of the parameters is null");
+    }
     return !availabilityRepository.isUnavailableForPeriod(propertyId, startDate, endDate);
   }
 
