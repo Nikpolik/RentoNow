@@ -14,9 +14,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Data
 @Entity(name = "users")
 public class User implements UserDetails {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -35,7 +32,7 @@ public class User implements UserDetails {
 
     @Enumerated
     @Column(nullable = false, columnDefinition = "smallint")
-    private Role role;
+    private Role role = Role.USER;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
