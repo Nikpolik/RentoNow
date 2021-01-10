@@ -4,10 +4,10 @@ import gr.athtech.groupName.rentonow.dtos.UserDto;
 
 public interface UserService {
 
-  public UserDto register(UserDto newUserDto);
+  UserDto register(UserDto newUserDto);
 
-  public UserDto update(UserDto updateUser);
+  UserDto update(UserDto updateUser);
 
-  public Boolean makeUserAdmin(Long id);
+  Boolean makeUserAdmin(Long id);
 
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public interface AvailabilityService {
    Boolean isPropertyAvailable(Long propertyId, LocalDate startDate, LocalDate endDate) throws BadRequestException;
 
-   public Availability setBooked(Booking booking, Property property, ClosedOrBookedDatesDto closedOrBookedDatesDto) throws BadRequestException;
+   Availability setBooked(Booking booking, Property property, ClosedOrBookedDatesDto closedOrBookedDatesDto) throws BadRequestException;
 
    AvailabilityDto setClosed(Long propertyId, ClosedOrBookedDatesDto closedOrBookedDatesDto) throws BadRequestException, NotFoundException;
 

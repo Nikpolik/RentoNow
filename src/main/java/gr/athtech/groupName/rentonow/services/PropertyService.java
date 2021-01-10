@@ -19,6 +19,6 @@ public interface PropertyService {
     * @return
     */
    Property findOwnedProperty(Long id) throws NotFoundException;
-   public List<PropertyDto> findProperties(FindPropertyDto searchParams);
+   List<PropertyDto> findProperties(FindPropertyDto searchParams);
    Property findPropertyById(Long id) throws NotFoundException;
 }
