@@ -4,11 +4,13 @@ import gr.athtech.groupName.rentonow.models.Payment;
 import gr.athtech.groupName.rentonow.models.PaymentStatus;
 import gr.athtech.groupName.rentonow.models.PaymentType;
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
+@ToString
 public class PaymentDto {
     private LocalDateTime paymentDate;
     private PaymentType paymentType;

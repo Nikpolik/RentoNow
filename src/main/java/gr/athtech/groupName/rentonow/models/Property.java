@@ -2,6 +2,7 @@ package gr.athtech.groupName.rentonow.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Data
 @Entity
+@ToString
 @JsonIgnoreProperties("location")
 public class Property {
     @Id

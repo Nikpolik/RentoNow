@@ -7,9 +7,9 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@ToString
 @Data
 @Entity
+@ToString
 @JsonIgnoreProperties("property")
 public class Image {
   @Id

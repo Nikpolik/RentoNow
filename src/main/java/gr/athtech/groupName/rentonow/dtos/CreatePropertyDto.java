@@ -12,10 +12,10 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import gr.athtech.groupName.rentonow.models.Property;
 
-@ToString
 @Getter
 @Builder
 @AllArgsConstructor
+@ToString
 public class CreatePropertyDto {
 
     private BigDecimal price;

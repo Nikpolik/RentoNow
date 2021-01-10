@@ -2,11 +2,13 @@ package gr.athtech.groupName.rentonow.dtos;
 
 import gr.athtech.groupName.rentonow.models.Booking;
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
+@ToString
 public class BookingDto {
     private Long id;
     private LocalDate startDate;

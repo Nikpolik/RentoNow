@@ -2,6 +2,7 @@ package gr.athtech.groupName.rentonow.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@ToString
 @JsonIgnoreProperties({"property", "guest"})
 public class Booking {
     @Id

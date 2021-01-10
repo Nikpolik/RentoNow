@@ -8,9 +8,11 @@ import gr.athtech.groupName.rentonow.models.Property;
 import gr.athtech.groupName.rentonow.models.User;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder
+@ToString
 public class PropertyDto {
     private Long id;
     private BigDecimal price;

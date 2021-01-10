@@ -1,6 +1,7 @@
 package gr.athtech.groupName.rentonow.models;
 
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.Collection;
 
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 // User Model Must Implement User details to be used by spring security
 @Data
+@ToString
 @Entity(name = "users")
 public class User implements UserDetails {
     private static final long serialVersionUID = 1L;

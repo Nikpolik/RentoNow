@@ -7,10 +7,12 @@ import gr.athtech.groupName.rentonow.models.AvailabilityStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Builder
 @AllArgsConstructor
+@ToString
 public class AvailabilityDto {
   LocalDate startDate;
   LocalDate endDate;

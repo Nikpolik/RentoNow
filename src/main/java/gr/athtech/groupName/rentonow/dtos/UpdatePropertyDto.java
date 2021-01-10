@@ -10,10 +10,12 @@ import gr.athtech.groupName.rentonow.models.Property;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @AllArgsConstructor
 @Builder
+@ToString
 public class UpdatePropertyDto {
 
   private Long id;
