@@ -3,6 +3,7 @@ package gr.athtech.groupName.rentonow.dtos;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import gr.athtech.groupName.rentonow.models.Role;
 import gr.athtech.groupName.rentonow.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
