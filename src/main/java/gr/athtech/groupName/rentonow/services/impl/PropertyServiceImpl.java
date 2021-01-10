@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     @PostAuthorize("returnObject.host.id == authentication.principal.id")
+    @Cacheable("properties")
     public Property findOwnedProperty(Long id) throws NotFoundException {
         var property = propertyRepository.findById(id);
         if(property.isEmpty()) {
@@ -53,6 +56,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "properties", key = "#result.id" )
     public PropertyDto updateProperty(UpdatePropertyDto propertyDto) throws NotFoundException {
         Property property = this.findOwnedProperty(propertyDto.getId());
 
@@ -78,6 +82,7 @@ public class PropertyServiceImpl implements PropertyService {
         return PropertyDto.fromProperty(propertyRepository.save(property));
     }
 
+    @Cacheable("properties")
     public Property findPropertyById(Long propertyId) throws NotFoundException {
         return propertyRepository.findById(propertyId).orElseThrow(() -> new NotFoundException("There is no property with the id provided"));
     }
