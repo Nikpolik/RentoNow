@@ -13,7 +13,7 @@ public class PaymentController {
     @Autowired
     private PaymentService paymentService;
 
-    @GetMapping(value = "/{id}/finalize")
+    @PutMapping(value = "/{id}/finalize")
     public PaymentDto finalizePayment(@PathVariable Long id, @RequestParam String paymentType) throws NotFoundException {
         return paymentService.finalizePayment(id, paymentType);
     }
