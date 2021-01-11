@@ -40,6 +40,6 @@ public class LoggedAspect {
         String exceptionName = exception.getClass().getSimpleName();
         StackTraceElement[] errorStackTrace = exception.getStackTrace();
         Logger methodLogger = LoggerFactory.getLogger(joinPoint.getTarget().getClass());
-        methodLogger.error("{} ERROR - {} {} {}", methodName, exceptionName, errorStackTrace);
+        methodLogger.error("{} ERROR - {} {} {}", exceptionName, methodName, exceptionName, errorStackTrace);
     }
 }
